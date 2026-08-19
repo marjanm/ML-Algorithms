@@ -1,0 +1,62 @@
+REPRODUCIBILITY GUARANTEES DEMO
+============================================================
+
+PART 1: THE PROBLEM — UNREPRODUCIBLE RESULTS
+============================================================
+
+  5 trials WITHOUT seed control:
+    Trial 1: accuracy=0.9100  hash=2f24a181605d...
+    Trial 2: accuracy=0.9300  hash=44c6043640b5...
+    Trial 3: accuracy=0.9200  hash=330eba051e57...
+    Trial 4: accuracy=0.9000  hash=6bebe7a73cae...
+    Trial 5: accuracy=0.8900  hash=de32c884e552...
+  Accuracy range: 0.8900 — 0.9300
+  Unique prediction hashes: 5/5
+  → Every run is different!
+
+============================================================
+PART 2: THE FIX — DETERMINISTIC RESULTS
+============================================================
+
+  5 trials WITH seed=42:
+    Trial 1: accuracy=0.9400  hash=2d4e093a7187...
+    Trial 2: accuracy=0.9400  hash=2d4e093a7187...
+    Trial 3: accuracy=0.9400  hash=2d4e093a7187...
+    Trial 4: accuracy=0.9400  hash=2d4e093a7187...
+    Trial 5: accuracy=0.9400  hash=2d4e093a7187...
+  Accuracy range: 0.9400 — 0.9400
+  Unique prediction hashes: 1/5
+  → All identical!
+
+============================================================
+PART 3: WHAT CAN BREAK REPRODUCIBILITY
+============================================================
+
+  Test: n_jobs effect on RandomForest
+    n_jobs= 1: hash=2d4e093a718773a6...
+    n_jobs= 2: hash=2d4e093a718773a6...
+    n_jobs=-1: hash=2d4e093a718773a6...
+    → All identical
+
+→ Plot saved: plots/reproducibility.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Sources of non-determinism in ML:
+  ┌───────────────────────┬──────────────────────────────────────┐
+  │ Source                │ Fix                                  │
+  ├───────────────────────┼──────────────────────────────────────┤
+  │ Data shuffling        │ random_state in train_test_split     │
+  │ Weight initialization │ torch.manual_seed / random_state     │
+  │ Dropout / augmentation│ set all RNG seeds                    │
+  │ CUDA non-determinism  │ cudnn.deterministic = True           │
+  │ Multi-threading       │ n_jobs=1 or accept variance          │
+  │ Hash randomization    │ PYTHONHASHSEED env variable          │
+  │ Package versions      │ Pin in requirements.txt              │
+  │ Python version        │ Pin in Dockerfile / pyenv            │
+  └───────────────────────┴──────────────────────────────────────┘
+
+Tradeoff: deterministic CUDA is ~10-15% slower. In production, you may
+accept non-determinism for speed. In research, reproducibility is mandatory.

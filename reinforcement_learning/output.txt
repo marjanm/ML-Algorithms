@@ -1,0 +1,39 @@
+============================================================
+  REINFORCEMENT LEARNING  —  Demo
+============================================================
+
+  Part 1: Tabular Q-Learning (4×4 Grid World)
+  Part 2: Deep Q-Network (CartPole-v1)
+
+============================================================
+  PART 1: Q-LEARNING  —  Grid World
+============================================================
+  Episodes trained : 500
+  Last-50 avg reward: 3.84
+  Final epsilon    : ~0.01
+
+  Learned policy (best action per cell):
+  -------------------------
+  |  →  |  →  |  ↓  |  ←  |
+  |  ↓  |  X  |  ↓  |  ←  |
+  |  ↓  |  →  |  ↓  |  X  |
+  |  →  |  →  |  →  |  G  |
+  -------------------------
+  G = Goal (+10),  X = Trap (-5)
+  [saved] reward curve → plots/q_learning_rewards.png
+  [saved] value heatmap → plots/q_learning_values.png
+
+============================================================
+  DQN  —  CartPole-v1 Results
+============================================================
+  Episodes       : 300
+  LR             : 0.001
+  Gamma          : 0.99
+  Batch size     : 64
+  Buffer size    : 10000
+  Target update  : every 10 episodes
+  Last-50 avg    : 169.2 steps (goal: 500)
+  Max achieved   : 454 steps
+  [saved] DQN reward curve → plots/dqn_cartpole.png
+
+============================================================

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns/984552772836687900/14f3e8def368421490dfece0d2d8ecba/artifacts
+end_time: 1772133465737
+entry_point_name: ''
+experiment_id: '984552772836687900'
+lifecycle_stage: active
+run_id: 14f3e8def368421490dfece0d2d8ecba
+run_name: Logistic Regression (strong reg)
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772133465408
+status: 3
+tags: []
+user_id: mmomtazpour

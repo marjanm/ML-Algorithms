@@ -1,0 +1,71 @@
+=================================================================
+  A/B TESTING & STATISTICAL TESTS  —  Demo
+=================================================================
+
+  ── 1. Simulated A/B Test ──
+    Group A (control): n=5000, conversions=479, rate=0.0958
+    Group B (variant):  n=5000, conversions=567, rate=0.1134
+    Observed lift: +18.37%
+
+    Z-statistic: 2.8755
+    P-value:     0.004034
+    Significant at α=0.05? YES
+
+  ── 2. Chi-Squared Test ──
+    Chi² statistic: 8.0815
+    P-value:        0.004472
+    Degrees of freedom: 1
+    Agrees with z-test? YES
+
+  ── 3. Confidence Intervals (95%) ──
+    Group A: 0.0958  [0.0879, 0.1043]
+    Group B: 0.1134  [0.1049, 0.1225]
+    Overlap? NO — strong signal
+    [saved] → plots/confidence_intervals.png
+
+  ── 4. Power Analysis ──
+    Baseline rate: 10%
+    α = 0.05, power = 0.80
+
+       MDE |  Sample size/group |      Total
+    -------+--------------------+-----------
+     0.005 |             57,763 |    115,526
+     0.010 |             14,751 |     29,502
+     0.020 |              3,841 |      7,682
+     0.030 |              1,774 |      3,548
+     0.050 |                686 |      1,372
+    [saved] → plots/sample_size.png
+
+  ── 5. Pitfall: Peeking (Repeated Testing) ──
+    Both groups have the SAME rate (10%) — no real effect.
+    Checking p-value repeatedly inflates false positives.
+    False positive rate with peeking: 27.8% (should be 5%)
+    [saved] → plots/peeking_pitfall.png
+
+  ── 6. Multiple Comparisons (Bonferroni) ──
+    Testing 5 variants at once → higher chance of false positive.
+    Raw α = 0.05, Bonferroni-corrected α = 0.010
+
+    Variant 1: p=0.4200  raw:      corrected:    
+    Variant 2: p=0.1820  raw:      corrected:    
+    Variant 3: p=0.6606  raw:      corrected:    
+    Variant 4: p=0.7607  raw:      corrected:    
+    Variant 5: p=0.8921  raw:      corrected:    
+
+  ── Key Concepts ──
+    P-value:          'Is the difference real or noise?'
+    Lift / effect size: 'How big is the difference?'
+    MDE (minimum lift): 'How many samples do I need to detect a lift this small?'
+
+    → P-value alone is not enough. Always check the lift too.
+    → A tiny lift can be 'significant' with enough data, but not worth acting on.
+
+  ── When to Use Which Test ──
+    • Z-test:     large samples, comparing proportions (CTR, conversion)
+    • T-test:     continuous outcomes (revenue, time-on-page), small samples OK
+    • Chi-squared: categorical outcomes, contingency tables
+    • Always: decide sample size BEFORE the test (power analysis)
+    • Never:  peek at results and stop early (inflates false positives)
+    • Multiple variants: use Bonferroni or Holm correction
+
+=================================================================

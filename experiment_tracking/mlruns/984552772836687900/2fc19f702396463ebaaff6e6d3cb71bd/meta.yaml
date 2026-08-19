@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns/984552772836687900/2fc19f702396463ebaaff6e6d3cb71bd/artifacts
+end_time: 1772133468112
+entry_point_name: ''
+experiment_id: '984552772836687900'
+lifecycle_stage: active
+run_id: 2fc19f702396463ebaaff6e6d3cb71bd
+run_name: XGBoost (lr=0.01)
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772133467497
+status: 3
+tags: []
+user_id: mmomtazpour

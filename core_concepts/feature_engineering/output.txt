@@ -1,0 +1,24 @@
+=================================================================
+  FEATURE ENGINEERING  —  Demo
+=================================================================
+  Dataset: concentric circles (not linearly separable)
+  Train: 400, Test: 200
+
+  Raw features (x1, x2):
+    Features: 2,  Test accuracy: 0.6450
+
+  Polynomial deg=2 (x1, x2, x1², x2², x1·x2):
+    Features: 2,  Test accuracy: 1.0000
+
+  Polynomial deg=3:
+    Features: 2,  Test accuracy: 1.0000
+
+  Manual: add r = sqrt(x1² + x2²):
+    Features: 3,  Test accuracy: 1.0000
+
+  Takeaway:
+    - Raw 2 features: logistic regression draws a straight line → ~50% (fails)
+    - Add polynomial features: now the model can learn curves → ~90%+
+    - Manual feature (radius): domain knowledge = 1 feature that solves it
+    - Feature engineering often matters MORE than choosing a fancier model
+=================================================================

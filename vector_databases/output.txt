@@ -1,0 +1,81 @@
+VECTOR DATABASES & ANN SEARCH — DEMO
+============================================================
+
+  Dataset: 20000 vectors, 128 dimensions
+  Queries: 50, retrieving top-10
+
+============================================================
+BENCHMARK RESULTS
+============================================================
+
+  Index Type                 Build (s)   Query (ms)    Recall@10
+  --------------------------------------------------------------
+  Brute Force (NumPy)            0.000        2.062        1.000
+  FAISS Flat (exact)             0.002        0.155        1.000
+  FAISS IVF (approx)             0.015        0.041        1.000
+  FAISS HNSW (approx)            0.146        0.048        1.000
+
+============================================================
+IVF nprobe SWEEP — Recall vs Speed Tradeoff
+============================================================
+
+    nprobe   Query (ms)    Recall@10
+  -----------------------------------
+         1        0.010        0.638
+         2        0.013        0.878
+         5        0.024        1.000
+        10        0.037        1.000
+        20        0.068        1.000
+        50        0.247        1.000
+
+============================================================
+SEMANTIC SEARCH DEMO (simulated embeddings)
+============================================================
+
+  Query: "How do language models work?"
+
+  Rank    Score  Document
+  -----------------------------------------------------------------
+     1   0.8494  Transformers use self-attention mechanisms ◄
+     2   0.7962  BERT is a bidirectional language model ◄
+     3   0.0511  Convolutional networks excel at image recognition ◄
+     4   0.0353  Neural networks are inspired by the human brain
+     5   0.0321  Reinforcement learning trains agents via rewards
+     6   0.0182  Random forests use ensemble of decision trees
+     7   0.0018  Gradient descent optimizes model parameters
+     8  -0.0084  Machine learning is a subset of artificial intelligence
+     9  -0.0281  Python is popular for data science and ML
+    10  -0.0877  Transfer learning reuses pretrained model weights
+
+→ Plot saved: plots/vector_db_benchmark.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+  ┌────────────────────┬──────────────────────────────────────┐
+  │ Index Type         │ Tradeoff                             │
+  ├────────────────────┼──────────────────────────────────────┤
+  │ Flat (brute force) │ 100% recall, slow for large N       │
+  │ IVF (inverted file)│ Partitions space into clusters,      │
+  │                    │ only searches nearby partitions.      │
+  │                    │ nprobe controls recall/speed.        │
+  │ HNSW (graph)       │ Navigable small-world graph.         │
+  │                    │ Fast queries, larger memory.          │
+  │ PQ (product quant) │ Compresses vectors. Very fast,       │
+  │                    │ lower recall. Good for billions.      │
+  └────────────────────┴──────────────────────────────────────┘
+
+  Vector DB tools:
+    • FAISS       — Meta's library. CPU/GPU. The standard.
+    • Chroma      — Python-native, good for prototyping.
+    • Pinecone    — Managed service, zero-ops.
+    • Weaviate    — Open source, supports hybrid search.
+    • Milvus      — Distributed, handles billions of vectors.
+    • Qdrant      — Rust-based, fast, filtering support.
+
+  When to use:
+    • RAG pipelines (retrieve relevant docs for LLM context)
+    • Semantic search (find similar items by meaning)
+    • Recommendation (find similar users/items)
+    • Deduplication (find near-duplicate documents)

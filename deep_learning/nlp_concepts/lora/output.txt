@@ -1,0 +1,37 @@
+======================================================================
+  LoRA  —  Low-Rank Adaptation Demo
+======================================================================
+  Base model: distilbert-base-uncased
+
+  1. Full fine-tuning (all params trainable):
+     Total params     :   66,955,010
+     Trainable params :   66,955,010
+     Trainable %      : 100.00%
+
+  2. LoRA fine-tuning (only low-rank adapters trainable):
+     Total params     :   67,694,596
+     Trainable params :      739,586
+     Trainable %      : 1.09%
+     LoRA rank (r)    : 8
+     Target modules   : {'q_lin', 'v_lin'}
+
+  3. Training with LoRA (3 epochs):
+     Epoch 1: loss = 0.7572
+     Epoch 2: loss = 0.6537
+     Epoch 3: loss = 0.5328
+     Time: 0.2s
+
+  4. Test results:
+     ✓ "An outstanding and moving film" → POS
+     ✓ "I really enjoyed this movie" → POS
+     ✓ "Absolutely dreadful experience" → NEG
+     ✓ "Would not recommend to anyone" → NEG
+     Accuracy: 100.00%
+
+  Key concepts:
+    - LoRA freezes all original weights and adds tiny trainable matrices
+    - We trained 739,586 params instead of ~66M (>1× reduction)
+    - Same accuracy potential, fraction of the memory and compute
+    - QLoRA goes further: quantises the frozen weights to 4-bit
+    - In practice, LoRA lets you fine-tune 7B+ models on a single GPU
+======================================================================

@@ -1,0 +1,21 @@
+==================================================
+  XGBOOST  —  Results
+==================================================
+  Accuracy   : 0.8820
+  Precision  : 0.8821
+  Recall     : 0.8820
+  F1 Score   : 0.8820
+  ROC AUC    : 0.9213
+  Train time : 0.817s
+  Predict    : 0.0030s
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.89      0.87      0.88       498
+           1       0.88      0.89      0.88       502
+
+    accuracy                           0.88      1000
+   macro avg       0.88      0.88      0.88      1000
+weighted avg       0.88      0.88      0.88      1000

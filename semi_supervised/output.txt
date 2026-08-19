@@ -1,0 +1,69 @@
+SEMI-SUPERVISED & SELF-SUPERVISED LEARNING DEMO
+============================================================
+============================================================
+PART 1: SEMI-SUPERVISED — LABEL SPREADING
+============================================================
+
+ Labeled % |   Supervised |  Label Spreading
+---------------------------------------------
+       5% |       0.837 |           0.933
+      10% |       0.857 |           0.970
+      20% |       0.870 |           0.980
+      50% |       0.863 |           0.977
+     100% |       0.877 |           0.977
+
+→ With only 5% labels, Label Spreading leverages unlabeled data structure
+  to achieve much better accuracy than plain supervised learning.
+→ Plot saved: plots/semi_supervised.png
+
+============================================================
+PART 2: PSEUDO-LABELING (SELF-TRAINING)
+============================================================
+
+Starting with 50 labeled, 1207 unlabeled
+Baseline accuracy (labeled only): 0.830
+
+Pseudo-labeling (threshold=0.95):
+  Round 1: added 168 pseudo-labels → 218 total, acc=0.830
+  Round 2: added 164 pseudo-labels → 382 total, acc=0.828
+  Round 3: added 140 pseudo-labels → 522 total, acc=0.837
+  Round 4: added 94 pseudo-labels → 616 total, acc=0.830
+  Round 5: added 94 pseudo-labels → 710 total, acc=0.831
+  Round 6: added 59 pseudo-labels → 769 total, acc=0.846
+  Round 7: added 36 pseudo-labels → 805 total, acc=0.850
+  Round 8: added 20 pseudo-labels → 825 total, acc=0.852
+  Round 9: added 21 pseudo-labels → 846 total, acc=0.844
+  Round 10: added 8 pseudo-labels → 854 total, acc=0.844
+
+Upper bound (all 1257 labels): 0.970
+Pseudo-labeling final: 0.844 using 854 labels (50 real)
+→ Plot saved: plots/pseudo_labeling.png
+
+============================================================
+PART 3: SELF-SUPERVISED LEARNING CONCEPTS
+============================================================
+
+Self-supervised learning creates labels FROM the data itself:
+
+  ┌───────────────────────┬──────────────────────────────────────────────┐
+  │ Method                │ How it works                                 │
+  ├───────────────────────┼──────────────────────────────────────────────┤
+  │ Contrastive (SimCLR)  │ Augment image twice → embeddings should be  │
+  │                       │ similar. Different images → dissimilar.      │
+  ├───────────────────────┼──────────────────────────────────────────────┤
+  │ BYOL                  │ Two networks: online + target. Online learns │
+  │                       │ to predict target's output. No negatives.    │
+  ├───────────────────────┼──────────────────────────────────────────────┤
+  │ Masked prediction     │ Mask part of input, predict it.              │
+  │ (BERT, MAE)           │ BERT masks tokens; MAE masks image patches.  │
+  ├───────────────────────┼──────────────────────────────────────────────┤
+  │ Next token (GPT)      │ Predict the next token in a sequence.        │
+  │                       │ Entire internet is "labeled" data.           │
+  └───────────────────────┴──────────────────────────────────────────────┘
+
+Why it matters:
+  - Labeled data is expensive ($1-10 per label for images, more for medical)
+  - Unlabeled data is nearly infinite (internet, sensors, logs)
+  - Foundation models (BERT, GPT, CLIP) are all pre-trained self-supervised
+  - Fine-tuning a self-supervised backbone with 1% labels often beats
+    training from scratch with 100% labels

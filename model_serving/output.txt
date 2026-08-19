@@ -1,0 +1,49 @@
+=================================================================
+  MODEL DEPLOYMENT / SERVING  —  FastAPI Demo
+=================================================================
+
+  ── Step 1: Train and Save Model ──
+    Model: RandomForestClassifier (50 trees)
+    Test accuracy: 0.9600
+    Saved to: model.joblib (334.4 KB)
+
+  ── Step 2: Create FastAPI App ──
+    Created: app.py
+    Endpoints:
+      GET  /health      — liveness check
+      POST /predict     — send features, get predictions + probabilities
+      GET  /model-info  — model metadata
+
+  ── Step 3: Start Server & Send Requests ──
+    Server running at http://127.0.0.1:8321
+    GET /health → {'status': 'ok', 'model_loaded': True}
+    GET /model-info → {'type': 'RandomForestClassifier', 'n_estimators': 50, 'n_features': 4, 'classes': [0, 1]}
+    POST /predict (3 samples):
+      Sample 0: class=0, P(class=1)=0.4000
+      Sample 1: class=0, P(class=1)=0.0200
+      Sample 2: class=0, P(class=1)=0.0800
+
+    Latency test (50 requests, batch of 3):
+      Mean:   4.0 ms
+      Median: 4.0 ms
+      P95:    4.5 ms
+      P99:    4.7 ms
+
+    Server shut down.
+
+  ── Step 4: What a Production Setup Adds ──
+    • Input validation & error handling (Pydantic does basic validation)
+    • Authentication (API keys, OAuth)
+    • Rate limiting & request queuing
+    • Model versioning (serve v1 and v2 side by side)
+    • Monitoring (latency, error rate, prediction distribution drift)
+    • Containerisation (Docker) for reproducible deployment
+    • Load balancing (multiple workers, horizontal scaling)
+    • Logging & alerting
+
+  ── API Example (curl) ──
+    curl -X POST http://localhost:8321/predict \
+      -H "Content-Type: application/json" \
+      -d '{"features": [[0.5, -1.2, 0.3, 0.8]]}'
+
+=================================================================

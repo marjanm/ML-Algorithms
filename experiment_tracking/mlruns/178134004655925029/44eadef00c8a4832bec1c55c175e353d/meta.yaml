@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns/178134004655925029/44eadef00c8a4832bec1c55c175e353d/artifacts
+end_time: 1772152609760
+entry_point_name: ''
+experiment_id: '178134004655925029'
+lifecycle_stage: active
+run_id: 44eadef00c8a4832bec1c55c175e353d
+run_name: week_3_monitoring
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772152609751
+status: 3
+tags: []
+user_id: mmomtazpour

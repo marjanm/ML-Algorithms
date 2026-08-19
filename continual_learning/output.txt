@@ -1,0 +1,98 @@
+CONTINUAL / LIFELONG LEARNING DEMO
+============================================================
+
+Task A: digits 0-4 (630 train, 271 test)
+Task B: digits 5-9 (627 train, 269 test)
+
+After Task A training:
+  Task A accuracy: 1.000
+  Task B accuracy: 0.000 (untrained)
+
+============================================================
+SCENARIO 1: NAIVE (catastrophic forgetting)
+============================================================
+  Task A accuracy: 0.000  (was 1.000)
+  Task B accuracy: 0.981
+  → CATASTROPHIC FORGETTING: Task A dropped by 1.000
+
+============================================================
+SCENARIO 2: REPLAY BUFFER (store 10% of Task A)
+============================================================
+  Replay buffer: 63 samples from Task A (10%)
+  Task A accuracy: 0.849  (was 1.000)
+  Task B accuracy: 0.981
+  Forgetting: 0.151
+
+============================================================
+SCENARIO 3: EWC (Elastic Weight Consolidation)
+============================================================
+
+  Fisher Information (mean per layer):
+    net.4.weight: 0.000000
+    net.4.bias: 0.000000
+    net.0.bias: 0.000000
+    net.0.weight: 0.000000
+    net.2.bias: 0.000000
+    net.2.weight: 0.000000
+
+  After Task B (λ=400):
+  Task A accuracy: 0.000  (was 1.000)
+  Task B accuracy: 0.981
+  Forgetting: 1.000
+
+============================================================
+REPLAY BUFFER SIZE SWEEP
+============================================================
+     0% replay (  0 samples) → Task A: 0.000  Task B: 0.981
+     2% replay ( 12 samples) → Task A: 0.590  Task B: 0.981
+     5% replay ( 31 samples) → Task A: 0.801  Task B: 0.981
+    10% replay ( 63 samples) → Task A: 0.852  Task B: 0.981
+    20% replay (126 samples) → Task A: 0.889  Task B: 0.981
+    50% replay (315 samples) → Task A: 0.974  Task B: 0.974
+
+============================================================
+SUMMARY
+============================================================
+
+Method                      Task A   Task B      Avg   Forgetting
+──────────────────────────────────────────────────────────────
+After Task A only            1.000        —        —            —
+Naive                        0.000    0.981    0.491        1.000
+Replay (10%)                 0.849    0.981    0.915        0.151
+EWC (λ={EWC_LAMBDA})         0.000    0.981    0.491        1.000
+──────────────────────────────────────────────────────────────
+
+→ Plot saved: plots/continual_learning.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Catastrophic Forgetting: neural nets overwrite old knowledge when learning
+new tasks. The weights for Task A get repurposed for Task B.
+
+Mitigation approaches:
+  ┌────────────────────────┬──────────────────────────────────────────┐
+  │ Method                 │ Idea                                     │
+  ├────────────────────────┼──────────────────────────────────────────┤
+  │ Replay Buffer          │ Store some old data, mix into training.  │
+  │                        │ Simple, effective, needs memory.         │
+  ├────────────────────────┼──────────────────────────────────────────┤
+  │ EWC                    │ Penalize changes to important weights.   │
+  │                        │ No stored data, but complex to tune.     │
+  ├────────────────────────┼──────────────────────────────────────────┤
+  │ Progressive Networks   │ Add new capacity per task, freeze old.   │
+  │                        │ No forgetting, but model grows.          │
+  ├────────────────────────┼──────────────────────────────────────────┤
+  │ Knowledge Distillation │ Old model as teacher for new training.   │
+  │                        │ Preserves soft knowledge.                │
+  └────────────────────────┴──────────────────────────────────────────┘
+
+The Stability-Plasticity Dilemma:
+  • Too stable (high λ / large replay) → can't learn new tasks
+  • Too plastic (low λ / no replay)    → forgets old tasks
+  • Split-label tasks (0-4 vs 5-9) are especially hard for EWC because
+    the output layer weights are disjoint — replay buffers work better here
+
+Real-world example: a fraud detection model must learn 2024 fraud patterns
+without forgetting 2023 patterns. Retraining from scratch is wasteful.

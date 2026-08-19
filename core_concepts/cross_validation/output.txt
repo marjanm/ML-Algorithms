@@ -1,0 +1,22 @@
+=================================================================
+  CROSS-VALIDATION  —  Demo
+=================================================================
+
+  1. Single random 80/20 split (30 different seeds):
+     Mean accuracy : 0.9083
+     Std deviation : 0.0203
+     Range         : [0.8700, 0.9450]
+
+  2. Cross-validation strategies:
+     3-Fold                         → 0.9030 ± 0.0168  (folds: 3)
+     5-Fold                         → 0.9030 ± 0.0204  (folds: 5)
+     10-Fold                        → 0.9040 ± 0.0215  (folds: 10)
+     5-Fold Stratified              → 0.9120 ± 0.0236  (folds: 5)
+     5×2 Repeated Stratified        → 0.9060 ± 0.0226  (folds: 10)
+
+  Takeaway:
+    - Single split: high variance (score changes a lot with seed)
+    - More folds  : lower variance, more reliable estimate
+    - Stratified   : preserves class proportions in each fold
+    - Repeated     : even more stable (multiple shuffles)
+=================================================================

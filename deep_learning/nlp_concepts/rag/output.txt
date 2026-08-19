@@ -1,0 +1,53 @@
+===========================================================================
+  RAG  —  Retrieval Augmented Generation Demo
+===========================================================================
+
+  Knowledge base: 10 documents
+  Queries       : 5
+
+  Step 1: Embedded all documents into 384-dim vectors.
+  Step 2: Retrieve most relevant documents per query.
+  Step 3: Generate answer using retrieved context.
+
+  Q: Who created Python?
+  Retrieved (top 3):
+    1. [0.812] Python was created by Guido van Rossum and first released in 1991. It emphasises...
+    2. [0.352] TensorFlow was developed by Google Brain. It was released in 2015 and supports s...
+    3. [0.285] BERT stands for Bidirectional Encoder Representations from Transformers. It was ...
+  Generated answer: The Python community has been around for a long time. It was created by Guido van Rossum and first released in 1991. It 
+
+  Q: What is the difference between PyTorch and TensorFlow?
+  Retrieved (top 3):
+    1. [0.525] PyTorch is an open-source machine learning framework developed by Meta AI. It us...
+    2. [0.490] TensorFlow was developed by Google Brain. It was released in 2015 and supports s...
+    3. [0.283] Python was created by Guido van Rossum and first released in 1991. It emphasises...
+  Generated answer: PyTorch is a Python library for machine learning. TensorFlow is a Python
+
+  Q: When were transformers introduced?
+  Retrieved (top 3):
+    1. [0.710] Transformers were introduced in the paper 'Attention Is All You Need' by Vaswani...
+    2. [0.415] BERT stands for Bidirectional Encoder Representations from Transformers. It was ...
+    3. [0.342] GPT stands for Generative Pre-trained Transformer. GPT-2 was released by OpenAI ...
+  Generated answer: In the paper 'Attention Is All You Need' by Vaswani et al. in 2017. BERT stands for Bidirectional Encoder Representation
+
+  Q: What does BERT stand for?
+  Retrieved (top 3):
+    1. [0.687] BERT stands for Bidirectional Encoder Representations from Transformers. It was ...
+    2. [0.244] Python was created by Guido van Rossum and first released in 1991. It emphasises...
+    3. [0.209] The attention mechanism lets the model focus on relevant parts of the input for ...
+  Generated answer: BERT stands for Bidirectional Encoder Representations from Transformers. It was developed by Google in 2018. Python was 
+
+  Q: How does RAG work?
+  Retrieved (top 3):
+    1. [0.391] RAG combines retrieval from a knowledge base with text generation to produce gro...
+    2. [0.113] BERT stands for Bidirectional Encoder Representations from Transformers. It was ...
+    3. [0.097] The attention mechanism lets the model focus on relevant parts of the input for ...
+  Generated answer: RAG is a simple, yet powerful, data-driven, data-driven, data-driven, data-driven, data-driven, data-driven, data-driven
+
+  Key concepts:
+    - Embedding: convert text to dense vectors that capture meaning
+    - Retrieval: find relevant docs via cosine similarity / dot product
+    - Generation: feed retrieved context + query into an LLM
+    - RAG lets LLMs answer about YOUR documents without retraining
+    - Production RAG uses vector databases (Pinecone, Chroma, FAISS)
+===========================================================================

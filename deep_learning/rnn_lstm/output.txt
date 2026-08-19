@@ -1,0 +1,11 @@
+==================================================
+  LSTM  —  Results (sine wave forecasting)
+==================================================
+  Architecture  : LSTM(64) x 2 layers
+  Bidirectional : False
+  Seq length    : 30
+  Dropout       : 0.2
+  Epochs        : 100
+  MSE           : 0.010786
+  MAE           : 0.084553
+==================================================

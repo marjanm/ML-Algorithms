@@ -1,0 +1,51 @@
+=================================================================
+  CLASSICAL TIME SERIES ANALYSIS  —  Demo
+=================================================================
+
+  Data: 500 time steps
+  True components: trend (slope=0.05) + seasonality (period=50) + noise
+
+  ── 1. Time Series Decomposition ──
+  [saved] → plots/decomposition.png
+
+  ── 2. Stationarity Test (Augmented Dickey-Fuller) ──
+    Raw series:
+      ADF statistic: -0.4938
+      P-value:       0.893228
+      Stationary?    NO — needs differencing
+    After 1st differencing:
+      ADF statistic: -6.6712
+      P-value:       0.000000
+      Stationary?    YES
+
+  ── 3. ACF / PACF (for ARIMA order selection) ──
+  [saved] → plots/acf_pacf.png
+    Rule of thumb:
+      p = number of significant PACF lags (AR order)
+      d = number of differences needed for stationarity
+      q = number of significant ACF lags (MA order)
+
+  ── 4. ARIMA Model ──
+    ARIMA(1, 1, 1): AIC=378.1
+    ARIMA(2, 1, 1): AIC=374.7
+    ARIMA(2, 1, 2): AIC=323.0
+    ARIMA(1, 1, 2): AIC=323.5
+    Best: ARIMA(2, 1, 2) (AIC=323.0)
+
+  ── 5. Forecast vs Actual ──
+    Model           |      MAE |     RMSE
+    ----------------+----------+---------
+    ARIMA           |   1.0860 |   1.3088
+    Naive (last)    |   2.2797 |   2.6478
+    ARIMA improvement: 52.4% lower MAE
+  [saved] → plots/forecast.png
+
+  ── Key Concepts ──
+    • Stationarity: constant mean & variance over time (required for ARIMA)
+    • Differencing (d): subtract previous value to remove trend
+    • AR(p): current value depends on p past values (autoregressive)
+    • MA(q): current value depends on q past forecast errors (moving average)
+    • AIC: lower = better model (balances fit vs complexity)
+    • For real data: also consider SARIMA (seasonal ARIMA) or Prophet
+
+=================================================================

@@ -1,0 +1,92 @@
+ETHICS, FAIRNESS & BIAS IN ML DEMO
+============================================================
+
+PART 1: BIASED DATASET & NAIVE MODEL
+============================================================
+
+Dataset: 3000 synthetic hiring decisions
+  Majority group (G=0): 1777
+  Minority group (G=1): 1223
+
+Historical hiring rates (ground truth — contains bias):
+  Majority: 49.4%
+  Minority: 28.1%
+  Gap: 21.2%
+
+Naive model accuracy: 0.641
+
+============================================================
+PART 2: FAIRNESS METRICS
+============================================================
+
+Acceptance rates:
+  Majority: 24.6%
+  Minority: 23.1%
+
+Demographic Parity difference: 0.015
+  (ideal: 0.0 — equal acceptance rates)
+
+Disparate Impact Ratio: 0.939
+  (legal threshold: ≥ 0.80, the '4/5 rule')
+  ✓ PASSES the 4/5 rule
+
+Equalized Odds:
+  TPR difference: 0.047
+  FPR difference: 0.025
+  (ideal: both 0.0 — model performs equally regardless of group)
+
+============================================================
+PART 3: BIAS MITIGATION
+============================================================
+
+Method 1: Group-specific threshold adjustment
+  Threshold for majority: 0.52
+  Threshold for minority: 0.51
+  Accuracy: 0.641 (was 0.641)
+  Demographic Parity diff: 0.000 (was 0.015)
+  Disparate Impact Ratio: 1.000 (was 0.939)
+  ✓ PASSES the 4/5 rule
+
+Method 2: Reweighting (sample weights during training)
+  Accuracy: 0.597
+  Demographic Parity diff: 0.023
+  Disparate Impact Ratio: 0.953
+  ✓ PASSES the 4/5 rule
+
+────────────────────────────────────────────────────────────
+Method                           Accuracy    DP Diff   DI Ratio
+────────────────────────────────────────────────────────────
+Naive model                         0.641      0.015      0.939
+Threshold adjustment                0.641      0.000      1.000
+Reweighting                         0.597      0.023      0.953
+────────────────────────────────────────────────────────────
+
+→ Plot saved: plots/fairness_bias.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Fairness Definitions (they can conflict with each other!):
+  • Demographic Parity   — equal acceptance rates across groups
+  • Equalized Odds       — equal TPR and FPR across groups
+  • Calibration          — P(Y=1 | score=s, G=g) same for all g
+  • Individual Fairness  — similar individuals get similar predictions
+
+Sources of Bias:
+  • Historical bias      — past decisions were discriminatory
+  • Representation bias  — training data under-represents a group
+  • Measurement bias     — features are measured differently per group
+  • Aggregation bias     — one model can't serve all populations
+
+Mitigation Strategies:
+  ┌────────────────────────┬──────────────────────────────────────┐
+  │ Stage                  │ Methods                              │
+  ├────────────────────────┼──────────────────────────────────────┤
+  │ Pre-processing         │ Reweighting, resampling, fair repr.  │
+  │ In-processing          │ Fairness constraints in loss func.   │
+  │ Post-processing        │ Threshold adjustment, calibration    │
+  └────────────────────────┴──────────────────────────────────────┘
+
+EU AI Act (2024): High-risk AI systems (hiring, credit, healthcare) must
+demonstrate fairness testing, provide explanations, and allow human override.

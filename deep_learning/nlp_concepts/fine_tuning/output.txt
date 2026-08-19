@@ -1,0 +1,44 @@
+======================================================================
+  FINE-TUNING vs TRANSFER LEARNING  —  Demo
+======================================================================
+  Base model: distilbert-base-uncased
+  Task: binary sentiment classification
+  Train: 20 examples,  Test: 8 examples
+
+  1. Zero-shot (pre-trained SST-2 model, no fine-tuning):
+     ✓ "An outstanding and moving film               " → POSITIVE (0.999)
+     ✓ "I really enjoyed this movie                  " → POSITIVE (0.999)
+     ✓ "Absolutely dreadful experience               " → NEGATIVE (0.995)
+     ✓ "Would not recommend to anyone                " → NEGATIVE (0.980)
+     ✓ "Beautiful cinematography and great script    " → POSITIVE (0.999)
+     ✗ "The worst film of the year                   " → POSITIVE (0.999)
+     ✓ "A truly magical experience                   " → POSITIVE (0.998)
+     ✓ "So bad I walked out halfway                  " → NEGATIVE (0.999)
+     Accuracy: 87.50%
+
+  2. Fine-tuning DistilBERT (3 epochs on our tiny dataset):
+     Epoch 1: loss = 0.6916
+     Epoch 2: loss = 0.6074
+     Epoch 3: loss = 0.4548
+     Training time: 1.0s
+     Test results:
+     ✓ "An outstanding and moving film               " → POSITIVE (0.643)
+     ✓ "I really enjoyed this movie                  " → POSITIVE (0.674)
+     ✓ "Absolutely dreadful experience               " → NEGATIVE (0.704)
+     ✓ "Would not recommend to anyone                " → NEGATIVE (0.635)
+     ✓ "Beautiful cinematography and great script    " → POSITIVE (0.716)
+     ✓ "The worst film of the year                   " → NEGATIVE (0.789)
+     ✓ "A truly magical experience                   " → POSITIVE (0.614)
+     ✓ "So bad I walked out halfway                  " → NEGATIVE (0.751)
+     Accuracy: 100.00%
+
+  Summary:
+    Zero-shot (SST-2 pre-trained) : 87.50%
+    Fine-tuned (3 epochs, 20 ex.) : 100.00%
+
+  Key concepts:
+    - Transfer learning: use a model trained on task A for task B (no retraining)
+    - Fine-tuning: retrain the model's weights on your specific data
+    - Even 20 examples + 3 epochs can adapt a pre-trained model
+    - Pre-trained models already understand language — you just teach them your task
+======================================================================

@@ -1,0 +1,31 @@
+============================================================
+  LOGISTIC REGRESSION — FROM SCRATCH
+============================================================
+  Features   : 2
+  Train size : 4000
+  lr         : 0.1
+  Epochs     : 200
+
+  Epoch    1 | train_loss=0.6931 | test_loss=0.6931
+  Epoch   20 | train_loss=0.4708 | test_loss=0.4698
+  Epoch   40 | train_loss=0.4089 | test_loss=0.4089
+  Epoch   60 | train_loss=0.3837 | test_loss=0.3846
+  Epoch   80 | train_loss=0.3708 | test_loss=0.3724
+  Epoch  100 | train_loss=0.3634 | test_loss=0.3655
+  Epoch  120 | train_loss=0.3588 | test_loss=0.3613
+  Epoch  140 | train_loss=0.3558 | test_loss=0.3585
+  Epoch  160 | train_loss=0.3537 | test_loss=0.3567
+  Epoch  180 | train_loss=0.3522 | test_loss=0.3555
+  Epoch  200 | train_loss=0.3512 | test_loss=0.3546
+
+  Final weights : [-0.14855113  1.82656359]
+  Final bias    : 0.0274
+  Test accuracy : 0.8600
+
+  Key formulas:
+    sigmoid(z)  = 1 / (1 + e^-z)
+    loss        = -1/n * Σ [y·log(σ) + (1-y)·log(1-σ)]
+    dw          = 1/n * X^T · (σ(z) - y)
+    db          = 1/n * Σ (σ(z) - y)
+    w_new       = w - lr * dw
+============================================================

@@ -1,0 +1,23 @@
+==================================================
+  DECISION TREE  —  Results
+==================================================
+  Criterion    : gini
+  Max depth    : 22
+  Leaf count   : 513
+  Accuracy     : 0.8640
+  Precision    : 0.8641
+  Recall       : 0.8640
+  F1 Score     : 0.8640
+  ROC AUC      : 0.8640
+  Train time   : 0.0062s
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.87      0.86      0.86       498
+           1       0.86      0.87      0.87       502
+
+    accuracy                           0.86      1000
+   macro avg       0.86      0.86      0.86      1000
+weighted avg       0.86      0.86      0.86      1000

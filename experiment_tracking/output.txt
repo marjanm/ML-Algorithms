@@ -1,0 +1,44 @@
+===========================================================================
+  MLFLOW EXPERIMENT TRACKING  —  Demo
+===========================================================================
+  Tracking URI : file:/Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns
+  Experiment   : model_comparison
+  Models       : 7
+  Train size   : 1600
+  Test size    : 400
+
+  Running experiments...
+
+  Logistic Regression                 | acc=0.8725 | f1=0.8725 | auc=0.9374 | time=0.003s | run_id=7eea613f
+  Logistic Regression (strong reg)    | acc=0.8800 | f1=0.8800 | auc=0.9373 | time=0.001s | run_id=14f3e8de
+  Random Forest (50 trees)            | acc=0.9075 | f1=0.9075 | auc=0.9518 | time=0.041s | run_id=f63e5a8d
+  Random Forest (200 trees)           | acc=0.9075 | f1=0.9075 | auc=0.9487 | time=0.190s | run_id=78eb4d52
+  Random Forest (deep)                | acc=0.9125 | f1=0.9125 | auc=0.9450 | time=0.099s | run_id=52c86c94
+  XGBoost (lr=0.1)                    | acc=0.9075 | f1=0.9075 | auc=0.9481 | time=0.171s | run_id=98346b28
+  XGBoost (lr=0.01)                   | acc=0.8950 | f1=0.8950 | auc=0.9472 | time=0.319s | run_id=2fc19f70
+
+===========================================================================
+  Comparison (sorted by ROC AUC):
+===========================================================================
+  Model                               |    Acc |     F1 |    AUC |    Time
+  ------------------------------------+--------+--------+--------+--------
+  Random Forest (50 trees)            | 0.9075 | 0.9075 | 0.9518 |  0.041s
+  Random Forest (200 trees)           | 0.9075 | 0.9075 | 0.9487 |  0.190s
+  XGBoost (lr=0.1)                    | 0.9075 | 0.9075 | 0.9481 |  0.171s
+  XGBoost (lr=0.01)                   | 0.8950 | 0.8950 | 0.9472 |  0.319s
+  Random Forest (deep)                | 0.9125 | 0.9125 | 0.9450 |  0.099s
+  Logistic Regression                 | 0.8725 | 0.8725 | 0.9374 |  0.003s
+  Logistic Regression (strong reg)    | 0.8800 | 0.8800 | 0.9373 |  0.001s
+
+===========================================================================
+  Next steps:
+    cd /Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking
+    mlflow ui
+    open http://localhost:5000
+
+  What you'll see in the UI:
+    - All runs listed with params and metrics
+    - Click any run to see artifacts (confusion matrix, saved model)
+    - Use 'Compare' to overlay metrics across runs
+    - Each model is reloadable: mlflow.sklearn.load_model(run_uri)
+===========================================================================

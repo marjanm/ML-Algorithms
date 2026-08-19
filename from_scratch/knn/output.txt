@@ -1,0 +1,31 @@
+============================================================
+  kNN — FROM SCRATCH
+============================================================
+  Train size : 400
+  Test size  : 100
+
+  Example prediction for X_test[0] = [-1.6373, 0.8630]:
+    5 nearest distances : ['0.1482', '0.2270', '0.2579', '0.2609', '0.2711']
+    Predicted class     : 1
+    Actual class        : 1
+
+  Accuracy for different k values:
+    k=  1 → accuracy = 0.9000
+    k=  3 → accuracy = 0.9300
+    k=  5 → accuracy = 0.9200
+    k=  7 → accuracy = 0.9300
+    k= 11 → accuracy = 0.9200
+    k= 15 → accuracy = 0.9300
+    k= 21 → accuracy = 0.9100
+    k= 31 → accuracy = 0.9100
+
+  Distance metric comparison (k=5):
+    Euclidean    → accuracy = 0.9200
+    Manhattan    → accuracy = 0.9300
+
+  Key formulas:
+    Euclidean : ||a-b||₂ = sqrt(Σ (a_i - b_i)²)
+    Manhattan : ||a-b||₁ = Σ |a_i - b_i|
+    Prediction: majority vote of k nearest neighbours
+    No training step — the entire training set IS the model
+============================================================

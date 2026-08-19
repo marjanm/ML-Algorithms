@@ -1,0 +1,12 @@
+==================================================
+  DIFFUSION MODEL (DDPM)  —  Results
+==================================================
+  Timesteps     : 300
+  Hidden dim    : 256
+  Time emb dim  : 64
+  Epochs        : 10
+  Batch size    : 128
+  Learning rate : 0.001
+  Device        : mps
+  Final loss    : 0.769274
+==================================================

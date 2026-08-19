@@ -1,0 +1,33 @@
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  RF  vs  XGBOOST  vs  KNN  —  Comparison Pipeline
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+
+Generating comparison plots …
+  [saved] plots/01_metric_bars.png
+  [saved] plots/02_roc_curves.png
+  [saved] plots/03_precision_recall.png
+  [saved] plots/04_confusion_matrices.png
+  [saved] plots/05_feature_importances.png
+  [saved] plots/06_proba_distribution.png
+  [saved] plots/07_calibration_curve.png
+  [saved] plots/08_timing.png
+  [saved] plots/09_learning_curves.png
+  [saved] plots/10_summary_dashboard.png
+  [saved] plots/11_decision_boundaries.png
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FINAL COMPARISON
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Metric             Random Forest       XGBoost           KNN      Winner
+────────────────────────────────────────────────────────────────────────
+  ACCURACY                0.9030        0.8820        0.9060     <-- KNN
+  PRECISION               0.9031        0.8821        0.9061     <-- KNN
+  RECALL                  0.9030        0.8820        0.9060     <-- KNN
+  F1                      0.9030        0.8820        0.9060     <-- KNN
+  ROC_AUC                 0.9565        0.9213        0.9544     <-- Ran
+  TRAIN TIME              0.320s        0.817s        0.001s     <-- KNN
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  All plots saved to plots/

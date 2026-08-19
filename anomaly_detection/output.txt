@@ -1,0 +1,45 @@
+=================================================================
+  ANOMALY DETECTION  —  Demo
+=================================================================
+
+  Dataset: 1000 samples, 50 anomalies (5.0% contamination)
+
+  ── Results ──
+
+  Model                     |    Acc |   Prec |    Rec |     F1
+  --------------------------+--------+--------+--------+-------
+  Isolation Forest          | 0.9980 | 0.9800 | 0.9800 | 0.9800
+  One-Class SVM             | 0.9660 | 0.6600 | 0.6600 | 0.6600
+  Local Outlier Factor      | 0.9320 | 0.3200 | 0.3200 | 0.3200
+
+  Isolation Forest:
+    TN= 949  FP=   1
+    FN=   1  TP=  49
+
+  One-Class SVM:
+    TN= 933  FP=  17
+    FN=  17  TP=  33
+
+  Local Outlier Factor:
+    TN= 916  FP=  34
+    FN=  34  TP=  16
+
+  [saved] → plots/anomaly_comparison.png
+
+  ── Contamination Sensitivity (Isolation Forest) ──
+    contamination=0.01 → F1=0.3333
+    contamination=0.03 → F1=0.7500
+    contamination=0.05 → F1=0.9800
+    contamination=0.10 → F1=0.6667
+    contamination=0.15 → F1=0.5000
+    contamination=0.20 → F1=0.4000
+  [saved] → plots/contamination_sensitivity.png
+
+  ── Key Takeaways ──
+    • Isolation Forest: fast, scalable, works well with high-dimensional data
+    • One-Class SVM: good when normal data has a clear boundary, but slow on large data
+    • LOF: density-based, catches local anomalies that global methods miss
+    • The contamination parameter is critical — set it based on domain knowledge
+    • In production, you rarely know the true contamination — start conservative
+
+=================================================================

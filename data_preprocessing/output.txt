@@ -1,0 +1,46 @@
+=================================================================
+  DATA PREPROCESSING PIPELINE  —  Demo
+=================================================================
+
+  Dataset shape: (1000, 8)
+  Target distribution: {0: np.int64(500), 1: np.int64(500)}
+
+  ── Step 1: Missing Values ──
+    age                 :  70 missing (7.0%)
+    income              :  82 missing (8.2%)
+    credit_score        :  73 missing (7.3%)
+    education           :  49 missing (4.9%)
+
+  ── Step 2: Imputation Strategies ──
+    mean            → income mean after impute: 66,442
+    median          → income mean after impute: 63,981
+    most_frequent   → income mean after impute: 61,814
+
+  ── Step 3: Scaling Comparison (on income column) ──
+    StandardScaler     → range: [-0.36, 12.04], mean: 0.00
+    MinMaxScaler       → range: [0.00, 1.00], mean: 0.03
+    RobustScaler       → range: [-0.53, 36.63], mean: 0.55
+    [saved] → plots/scaling_comparison.png
+
+  ── Step 4: Categorical Encoding ──
+    OneHotEncoder (education) → 3 columns (drop=first)
+    OrdinalEncoder (education) → values: [np.float64(0.0), np.float64(1.0), np.float64(2.0), np.float64(3.0)]
+
+  ── Step 5: Full sklearn Pipeline ──
+    Train/test split: 800 / 200
+
+    Logistic Regression       | CV acc: 0.7675 ± 0.0425 | Test acc: 0.7350
+    Random Forest             | CV acc: 0.7513 ± 0.0232 | Test acc: 0.7750
+
+  ── Pipeline Structure ──
+    Pipeline(
+      ColumnTransformer([
+        ('num', Pipeline([Imputer(median), RobustScaler]), [age, income, ...]),
+        ('cat', Pipeline([Imputer(most_frequent), OneHotEncoder]), [education, region, ...]),
+      ]),
+      RandomForestClassifier(n_estimators=100)
+    )
+
+    [saved] → plots/before_after.png
+
+=================================================================

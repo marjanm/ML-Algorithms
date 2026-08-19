@@ -1,0 +1,102 @@
+STRUCTURED ERROR SLICING — DEMO
+============================================================
+
+  Overall accuracy: 0.7760
+  Overall F1:       0.7663
+
+============================================================
+SLICE: AGE
+============================================================
+
+  Value             N      Acc       F1     Prec   Recall     Pos%
+  --------------------------------------------------------------
+  18-25           147   0.5986   0.5693   0.6500   0.5065     0.52 ◄ UNDERPERFORMING
+  26-40           624   0.7869   0.7595   0.8046   0.7192     0.47
+  41-60           502   0.7968   0.7650   0.8058   0.7281     0.45
+  60+             227   0.8150   0.8662   0.8447   0.8889     0.67
+
+============================================================
+SLICE: INCOME
+============================================================
+
+  Value             N      Acc       F1     Prec   Recall     Pos%
+  --------------------------------------------------------------
+  high            288   0.8194   0.8834   0.8528   0.9163     0.75
+  low             466   0.8133   0.7339   0.7843   0.6897     0.37
+  medium          746   0.7359   0.7038   0.7697   0.6482     0.48
+
+============================================================
+SLICE: REGION
+============================================================
+
+  Value             N      Acc       F1     Prec   Recall     Pos%
+  --------------------------------------------------------------
+  rural           241   0.7095   0.7200   0.7895   0.6618     0.56 ◄ UNDERPERFORMING
+  suburban        526   0.8156   0.8040   0.8057   0.8024     0.47
+  urban           733   0.7694   0.7561   0.8012   0.7158     0.50
+
+============================================================
+INTERSECTION SLICING (age × income)
+============================================================
+
+  Age × Income                N      Acc       F1
+  ------------------------------------------
+  18-25 × high               34   0.6765   0.7556 ◄ WORST
+  18-25 × low                51   0.6471   0.4000 ◄ WORST
+  18-25 × medium             62   0.5161   0.5161 ◄ WORST
+  26-40 × high              120   0.8583   0.9071
+  26-40 × low               190   0.7947   0.5979
+  26-40 × medium            314   0.7548   0.7179
+  41-60 × high               88   0.8182   0.8873
+  41-60 × low               157   0.8344   0.6176
+  41-60 × medium            257   0.7665   0.7321
+  60+ × high                 46   0.8261   0.8947
+  60+ × low                  68   0.9412   0.9697
+  60+ × medium              113   0.7345   0.7170
+
+  → Worst slice: 18-25 × medium (accuracy: 0.5161)
+  → Overall accuracy: 0.7760
+  → Gap: 0.2599
+
+============================================================
+ERROR CATEGORIZATION
+============================================================
+
+  Total errors: 336 / 1500 (22.4%)
+  False positives (approved but shouldn't): 137
+  False negatives (rejected but should approve): 199
+
+  False negatives by age group:
+    18-25    0.259 ████████████
+    26-40    0.131 ██████
+    41-60    0.124 ██████
+    60+      0.075 ███
+
+→ Plot saved: plots/error_slicing.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+  Why slice?
+    Overall metrics hide subgroup failures. A model with 93% accuracy
+    might be 60% accurate on the smallest demographic slice — the group
+    that needs the model most.
+
+  Workflow:
+    1. Pick slicing dimensions (demographics, feature bins, data source)
+    2. Compute per-slice metrics (accuracy, F1, FP/FN rates)
+    3. Flag underperforming slices (> 5% below overall)
+    4. Investigate: is it data quality? data quantity? distribution shift?
+    5. Fix: targeted data collection, slice-specific thresholds, or
+       separate models for underperforming slices
+
+  Tools:
+    • Pandas groupby → manual slicing
+    • Scikit-learn: no built-in slicing
+    • Google's Slicing Intelligently (slice-finder)
+    • Microsoft Responsible AI Toolbox
+    • Evidently AI — automated drift & slice reports
+
+  Interview tip: "How would you debug a model that's 95% accurate
+  but users are complaining?" → Error slicing is the first answer.

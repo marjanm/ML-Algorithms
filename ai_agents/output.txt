@@ -1,0 +1,108 @@
+AI AGENTS / TOOL USE — DEMO
+============================================================
+
+  Available tools:
+    • calculator: Evaluate a math expression. Input: a math expression string like '2 + 3 * 4'
+    • lookup: Look up a fact from a knowledge base. Input: a topic string
+    • date: Get the current date and time. Input: ignored
+    • unit_convert: Convert between units. Input: 'value from_unit to_unit' e.g. '100 km miles'
+
+============================================================
+RUNNING AGENT ON QUESTIONS
+============================================================
+
+──────────────────────────────────────────────────
+
+  Question: What is the speed of light?
+  Step 1 — Thought: I should use 'lookup' with input 'speed of light'
+  Step 1 — Observation: The speed of light is 299,792,458 m/s.
+  Step 2 — Thought: I should use 'finish' with input 'The speed of light is 299,792,458 m/s.'
+  Step 2 — Final Answer: The speed of light is 299,792,458 m/s.
+
+──────────────────────────────────────────────────
+
+  Question: Calculate 2.5 * 3.14159 * 6371
+  Step 1 — Thought: I should use 'calculator' with input '2.5 * 3.14159 * 6371'
+  Step 1 — Observation: 50037.674725000004
+  Step 2 — Thought: I should use 'finish' with input '50037.674725000004'
+  Step 2 — Final Answer: 50037.674725000004
+
+──────────────────────────────────────────────────
+
+  Question: What date is it today?
+  Step 1 — Thought: I should use 'date' with input ''
+  Step 1 — Observation: 2026-03-01 18:42:25
+  Step 2 — Thought: I should use 'finish' with input '2026-03-01 18:42:25'
+  Step 2 — Final Answer: 2026-03-01 18:42:25
+
+──────────────────────────────────────────────────
+
+  Question: Convert 100 km to miles
+  Step 1 — Thought: I should use 'unit_convert' with input '100 km miles'
+  Step 1 — Observation: 100.0 km = 62.1371 miles
+  Step 2 — Thought: I should use 'unit_convert' with input '100.0 km miles'
+  Step 2 — Observation: 100.0 km = 62.1371 miles
+  Step 3 — Thought: I should use 'finish' with input '100.0 km = 62.1371 miles'
+  Step 3 — Final Answer: 100.0 km = 62.1371 miles
+
+──────────────────────────────────────────────────
+
+  Question: What is the radius of Earth, and what is its circumference?
+  Step 1 — Thought: I should use 'lookup' with input 'earth circumference'
+  Step 1 — Observation: Earth's circumference is approximately 40,075 km.
+  Step 2 — Thought: I should use 'calculator' with input '2 * 3.14159 * 40075.0'
+  Step 2 — Observation: 251798.4385
+  Step 3 — Thought: I should use 'finish' with input '251798.4385'
+  Step 3 — Final Answer: 251798.4385
+
+──────────────────────────────────────────────────
+
+  Question: Convert 212 fahrenheit to celsius
+  Step 1 — Thought: I should use 'unit_convert' with input '212 fahrenheit celsius'
+  Step 1 — Observation: 212.0 fahrenheit = 100.0000 celsius
+  Step 2 — Thought: I should use 'finish' with input '212.0 fahrenheit = 100.0000 celsius'
+  Step 2 — Final Answer: 212.0 fahrenheit = 100.0000 celsius
+
+============================================================
+SUMMARY
+============================================================
+
+  Question                                            Steps
+  ----------------------------------------------------------
+  What is the speed of light?                             5
+  Calculate 2.5 * 3.14159 * 6371                          5
+  What date is it today?                                  5
+  Convert 100 km to miles                                 7
+  What is the radius of Earth, and what is its circumference?      7
+  Convert 212 fahrenheit to celsius                       5
+
+============================================================
+AGENT ARCHITECTURE — ReAct PATTERN
+============================================================
+
+  ┌─────────┐
+  │ Question│
+  └────┬────┘
+       ▼
+  ┌─────────┐     ┌──────────┐     ┌──────────┐
+  │ THINK   │────▶│   ACT    │────▶│ OBSERVE  │
+  │ (LLM    │     │ (call    │     │ (get     │
+  │  decides │◀───│  tool)   │     │  result) │
+  │  next   │     └──────────┘     └────┬─────┘
+  │  action)│◀──────────────────────────┘
+  └────┬────┘
+       │ action = "finish"
+       ▼
+  ┌─────────┐
+  │ ANSWER  │
+  └─────────┘
+
+  Real implementations:
+    • OpenAI function calling — tools defined as JSON schemas
+    • LangChain agents      — tool decorator + LLM router
+    • AutoGPT / CrewAI      — multi-agent collaboration
+    • MCP (Model Context Protocol) — standardized tool interface
+
+  Key insight: the agent is just a LOOP — think, act, observe, repeat.
+  The "intelligence" comes from the LLM's ability to reason about which
+  tool to call and how to interpret results.

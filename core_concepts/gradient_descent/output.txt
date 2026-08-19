@@ -1,0 +1,28 @@
+============================================================
+  GRADIENT DESCENT  —  Learning Rate Comparison
+============================================================
+  Loss function : 0.5*(w1-3)² + 2*(w2-2)²
+  Minimum at    : (3.0, 2.0)
+  Start point   : (-4.0, -3.0)
+  Steps         : 50
+
+  lr = 0.01:
+    Final position : (-1.2350, 1.3506)
+    Final loss     : 9.811308
+    Distance to min: 4.284547
+
+  lr = 0.15:
+    Final position : (2.9979, 2.0000)
+    Final loss     : 0.000002
+    Distance to min: 0.002070
+
+  lr = 0.55:
+    Final position : (3.0000, -45500.1908)
+    Final loss     : 4140898726.100786
+    Distance to min: 45502.190750
+
+  Takeaway:
+    - lr too small (0.01) → barely moves in 50 steps
+    - lr just right (0.15) → smooth convergence
+    - lr too large (0.55) → overshoots, zigzags
+============================================================

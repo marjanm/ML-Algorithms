@@ -1,0 +1,105 @@
+MULTI-MODAL MODELS (CLIP) — DEMO
+============================================================
+
+  CLIP learns a shared embedding space where images and text
+  that describe the same thing are close together.
+
+  Training: contrastive learning on 400M image-text pairs from the internet.
+  The model learns to match images with their captions.
+
+  Loading CLIP model (openai/clip-vit-base-patch32)...
+  Computing image-text similarities...
+
+  Image-Text Similarity Matrix (rows=text, cols=image):
+                                  red squaregreen square blue squareyellow squarepurple square
+  ------------------------------------------------------------------------------------------
+  a photo of something red             0.980       0.011       0.004       0.002       0.002
+  a blue colored object                0.003       0.003       0.986       0.003       0.005
+  the color of grass                   0.026       0.811       0.048       0.072       0.043
+  sunset colors                        0.132       0.058       0.122       0.258       0.430
+  royal purple color                   0.000       0.000       0.013       0.001       0.985
+
+  Zero-Shot Classification:
+    red square      → a photo of a car (0.266)
+    green square    → a photo of a dog (0.340)
+    blue square     → a photo of a dog (0.291)
+    yellow square   → a photo of a flower (0.305)
+    purple square   → a photo of a flower (0.469)
+
+============================================================
+IMAGE-TEXT SIMILARITY MATRIX
+============================================================
+                             red squaregreen square blue squareyellow squarepurple square
+  -------------------------------------------------------------------------------------
+  a photo of something red        0.980       0.011       0.004       0.002       0.002  ← red square
+  a blue colored object           0.003       0.003       0.986       0.003       0.005  ← blue square
+  the color of grass              0.026       0.811       0.048       0.072       0.043  ← green square
+  sunset colors                   0.132       0.058       0.122       0.258       0.430  ← purple square
+  royal purple color              0.000       0.000       0.013       0.001       0.985  ← purple square
+
+============================================================
+ZERO-SHOT CLASSIFICATION
+============================================================
+
+  For each image, CLIP ranks text descriptions by similarity.
+  No training on these specific classes — just text descriptions!
+
+  Image: red square
+    #1: a photo of something red                 score=0.980
+    #2: sunset colors                            score=0.132
+    #3: the color of grass                       score=0.026
+
+  Image: green square
+    #1: the color of grass                       score=0.811
+    #2: sunset colors                            score=0.058
+    #3: a photo of something red                 score=0.011
+
+  Image: blue square
+    #1: a blue colored object                    score=0.986
+    #2: sunset colors                            score=0.122
+    #3: the color of grass                       score=0.048
+
+  Image: yellow square
+    #1: sunset colors                            score=0.258
+    #2: the color of grass                       score=0.072
+    #3: a blue colored object                    score=0.003
+
+  Image: purple square
+    #1: royal purple color                       score=0.985
+    #2: sunset colors                            score=0.430
+    #3: the color of grass                       score=0.043
+
+
+→ Plot saved: plots/clip_multimodal.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+  ┌──────────────────┬────────────────────────────────────────┐
+  │ Concept          │ Description                            │
+  ├──────────────────┼────────────────────────────────────────┤
+  │ Contrastive      │ Push matching pairs together,          │
+  │ Learning         │ non-matching pairs apart in embedding  │
+  │                  │ space. InfoNCE loss.                   │
+  │ Zero-shot        │ Classify without training on those     │
+  │                  │ classes. Just provide text descriptions.│
+  │ Shared embedding │ Images and text live in the SAME       │
+  │                  │ vector space. Cosine similarity works. │
+  │ Temperature      │ Learned scalar that sharpens the       │
+  │                  │ softmax distribution.                  │
+  └──────────────────┴────────────────────────────────────────┘
+
+  Multi-modal model landscape:
+    • CLIP      — image ↔ text (OpenAI, 2021)
+    • ALIGN     — image ↔ text (Google, noisier data)
+    • LLaVA     — image + text → text (visual QA)
+    • GPT-4V    — image + text → text (OpenAI)
+    • Gemini    — image + text + audio + video (Google)
+    • DALL-E    — text → image (generation, not matching)
+
+  Applications:
+    • Image search by natural language query
+    • Content moderation (match images to policy descriptions)
+    • Product recommendation (match product images to user queries)
+    • Accessibility (describe images for visually impaired users)

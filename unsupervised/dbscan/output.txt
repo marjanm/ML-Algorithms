@@ -1,0 +1,21 @@
+============================================================
+  DBSCAN  —  Results
+============================================================
+
+  Dataset     : Moons
+  eps         : 0.3
+  min_samples : 5
+  Clusters    : 2
+  Noise pts   : 1
+  Silhouette  : 0.1583
+  Time        : 0.0235s
+
+  Dataset     : Blobs
+  eps         : 0.3
+  min_samples : 5
+  Clusters    : 2
+  Noise pts   : 8
+  Silhouette  : 0.5030
+  Time        : 0.0154s
+
+============================================================

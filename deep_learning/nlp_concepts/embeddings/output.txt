@@ -1,0 +1,31 @@
+======================================================================
+  EMBEDDINGS  —  Demo
+======================================================================
+  Model       : bert-base-uncased
+  Embedding dim: 768
+  Words loaded : 32
+
+  Cosine similarity between word pairs:
+    cat          ↔ dog          : 0.6345
+    cat          ↔ computer     : 0.4304
+    happy        ↔ sad          : 0.3392
+    happy        ↔ excited      : 0.3241
+    france       ↔ germany      : 0.4206
+    france       ↔ pizza        : 0.4608
+    software     ↔ code         : 0.6505
+    software     ↔ salad        : 0.6675
+
+  Word arithmetic (king − man + woman ≈ ?):
+    king − man + woman ↔ king       : 0.6311
+    king − man + woman ↔ man        : 0.0798
+    king − man + woman ↔ woman      : 0.7536
+    king − man + woman ↔ queen      : 0.4570
+    king − man + woman ↔ prince     : 0.3238
+    king − man + woman ↔ princess   : 0.3259
+
+  Key concepts:
+    - Each word is a 768-dimensional vector
+    - Similar words have similar vectors (high cosine similarity)
+    - Semantic relationships are captured as vector directions
+    - Embeddings are the input to all transformer-based models
+======================================================================

@@ -1,0 +1,53 @@
+======================================================================
+  EVALUATION METRICS  —  Deep Dive
+======================================================================
+
+  Dataset: 3000 samples, 10% positive rate (imbalanced)
+  Train: 2100 (215 pos)  |  Test: 900 (92 pos)
+
+  ── 1. Metric Comparison (default threshold = 0.5) ──
+
+  Model                     |    Acc |   Prec |    Rec |     F1 |    AUC |     AP |  LogLoss |  Brier
+  --------------------------+--------+--------+--------+--------+--------+--------+----------+-------
+  Logistic Regression       | 0.9378 | 0.7368 | 0.6087 | 0.6667 | 0.9555 | 0.6973 |   0.1592 | 0.0474
+  Random Forest             | 0.9611 | 0.9130 | 0.6848 | 0.7826 | 0.9765 | 0.8344 |   0.1193 | 0.0326
+  Gradient Boosting         | 0.9522 | 0.8025 | 0.7065 | 0.7514 | 0.9662 | 0.8262 |   0.1266 | 0.0358
+  SVM (RBF)                 | 0.9633 | 0.9275 | 0.6957 | 0.7950 | 0.9730 | 0.8510 |   0.1299 | 0.0269
+
+  ── 2. Why Accuracy Misleads on Imbalanced Data ──
+    A 'predict all negative' model gets accuracy = 0.8978
+    But it catches ZERO positives (recall = 0) — useless for fraud/disease.
+    → Use F1, AUC, or Average Precision instead.
+
+  [saved] → plots/confusion_matrices.png
+  [saved] → plots/roc_curves.png
+  [saved] → plots/pr_curves.png
+
+  ── 6. Threshold Tuning (Gradient Boosting) ──
+    Default threshold 0.50 → F1 = 0.7514
+    Best threshold   0.30 → F1 = 0.7692
+    [saved] → plots/threshold_tuning.png
+
+  ── 7. Cost-Based Threshold Selection ──
+    Scenario: missed fraud costs $10,000, false alarm costs $50
+    Best cost threshold: 0.10 (total cost: $73,400)
+    vs default 0.50                 (total cost: $270,800)
+
+  ── 8. Calibration Curves ──
+    'When the model says 80% sure, is it right 80% of the time?'
+    [saved] → plots/calibration_curves.png
+
+  ── 9. When to Use Which Metric ──
+
+    Metric          | Best For
+    ────────────────┼──────────────────────────────────────────────
+    Accuracy         | Balanced classes, equal misclassification cost
+    Precision        | False positives are expensive (spam filter, content moderation)
+    Recall           | False negatives are expensive (disease screening, fraud)
+    F1               | Need balance of precision & recall, single threshold
+    ROC AUC          | Ranking quality across all thresholds, balanced/moderate imbalance
+    Average Prec.    | Imbalanced data (< 5% positive), ranking quality
+    Log Loss         | Calibrated probabilities matter (pricing, risk scoring)
+    Brier Score      | Calibration quality (reliability of predicted probabilities)
+
+======================================================================

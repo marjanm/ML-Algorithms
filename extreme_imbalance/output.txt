@@ -1,0 +1,49 @@
+EXTREME IMBALANCE DEMO
+============================================================
+
+  Dataset: 20000 samples
+  Positive rate: 0.555%
+  Train: 14000 (78 positives)
+  Test:  6000 (33 positives)
+
+============================================================
+PART 1: THE ACCURACY TRAP
+============================================================
+
+  'Always predict negative' baseline:
+    Accuracy: 0.995 (99.5%)
+    Precision: 0.000
+    Recall:    0.000
+    F1:        0.000
+    → 99.5% accurate but catches ZERO fraud!
+
+============================================================
+PART 2: HANDLING IMBALANCE
+============================================================
+
+  Method                            Acc   Prec  Recall     F1  PR-AUC   P@50
+  ------------------------------------------------------------------------
+  Vanilla RF                      0.995  1.000   0.091  0.167   0.471  0.380
+  RF (class_weight=balanced)      0.995  1.000   0.061  0.114   0.456  0.380
+  RF (oversampled)                0.995  1.000   0.152  0.263   0.536  0.400
+  GB (weighted)                   0.996  0.750   0.455  0.566   0.495  0.360
+
+============================================================
+PART 3: TWO-STAGE SYSTEM
+============================================================
+
+  Stage 1: Fast filter (threshold=0.02)
+    Passes 232 samples (3.9% of traffic)
+    Recall: 66.7% (catches 22/33 positives)
+
+  Stage 2: Precise model (threshold=0.3)
+    Flags 24 samples for human review
+    Precision: 62.5% (of flagged, this many are real fraud)
+    Overall recall: 45.5%
+
+  Why two stages?
+    Stage 1 runs on ALL 6000 transactions (must be fast, <5ms)
+    Stage 2 runs on only 232 candidates (can be slow, <500ms)
+    Human review sees only 24 cases (manageable)
+
+→ Plot saved: plots/extreme_imbalance.png

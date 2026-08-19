@@ -1,0 +1,89 @@
+FEATURE DRIFT DETECTION & SILENT DEGRADATION DEMO
+============================================================
+
+PART 1: DRIFT METRICS
+============================================================
+
+ Drift |      PSI |  KS stat |   KS p-val |   KL div | Verdict
+----------------------------------------------------------------------
+   0.0 |   0.0013 |   0.0146 |   6.61e-01 |   0.0044 | ✓ Stable
+   0.2 |   0.0445 |   0.0910 |   1.98e-18 |   0.0278 | ✓ Stable
+   0.5 |   0.2445 |   0.2078 |   7.21e-95 |   0.1296 | ⚠ Moderate
+   1.0 |   0.9564 |   0.3880 |   0.00e+00 |   0.4835 | ✗ DRIFT
+   2.0 |   3.4568 |   0.6788 |   0.00e+00 |   1.7700 | ✗ DRIFT
+   3.0 |   7.0614 |   0.8656 |   0.00e+00 |   3.4953 | ✗ DRIFT
+
+============================================================
+PART 2: SILENT MODEL DEGRADATION OVER 12 WEEKS
+============================================================
+
+ Week |  Drift |  Accuracy |      PSI |  Pred mean | Status
+-----------------------------------------------------------------
+    1 |   0.00 |     0.774 |   0.0162 |      0.608 | ✓ OK
+    2 |   0.27 |     0.778 |   0.0982 |      0.674 | ✓ OK
+    3 |   0.55 |     0.796 |   0.3001 |      0.698 | ✗ ALERT
+    4 |   0.82 |     0.814 |   0.5731 |      0.720 | ✗ ALERT
+    5 |   1.09 |     0.790 |   1.0513 |      0.788 | ✗ ALERT
+    6 |   1.36 |     0.854 |   1.4365 |      0.784 | ✗ ALERT
+    7 |   1.64 |     0.846 |   2.3860 |      0.876 | ✗ ALERT
+    8 |   1.91 |     0.838 |   2.9023 |      0.876 | ✗ ALERT
+    9 |   2.18 |     0.850 |   3.5097 |      0.894 | ✗ ALERT
+   10 |   2.45 |     0.868 |   5.0816 |      0.958 | ✗ ALERT
+   11 |   2.73 |     0.876 |   5.2730 |      0.956 | ✗ ALERT
+   12 |   3.00 |     0.906 |   6.1712 |      0.954 | ✗ ALERT
+
+  Week 1 accuracy: 0.774
+  Week 12 accuracy: 0.906
+  Drop: -0.132
+  → The model kept serving predictions but accuracy silently degraded
+
+============================================================
+PART 3: RETRAINING TRIGGER & RECOVERY
+============================================================
+
+  PSI threshold (0.25) crossed at week 3
+  → Triggering retrain on recent data...
+
+ Week |  Old model |  Retrained
+-----------------------------------
+    3 |      0.796 |      0.778
+    4 |      0.814 |      0.796
+    5 |      0.790 |      0.790
+    6 |      0.854 |      0.824
+    7 |      0.846 |      0.852
+    8 |      0.838 |      0.840
+    9 |      0.850 |      0.850
+   10 |      0.868 |      0.856
+   11 |      0.876 |      0.862
+   12 |      0.906 |      0.876
+
+  Retraining recovered accuracy from 0.796 to 0.778
+
+→ Plot saved: plots/drift_detection.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Drift types:
+  • Data drift     — input feature distributions change (new user demographics)
+  • Concept drift  — relationship between features and label changes (fraud tactics evolve)
+  • Prediction drift — model output distribution shifts (even if inputs look stable)
+
+Metrics:
+  ┌──────────┬────────────────────────────────────────────────────┐
+  │ PSI      │ Binned distribution comparison. Industry standard │
+  │          │ < 0.1 stable, 0.1-0.25 moderate, > 0.25 alert    │
+  ├──────────┼────────────────────────────────────────────────────┤
+  │ KS test  │ Max distance between CDFs. Returns p-value.       │
+  │          │ Non-parametric, works on any distribution shape    │
+  ├──────────┼────────────────────────────────────────────────────┤
+  │ KL div   │ Information-theoretic. Asymmetric (order matters) │
+  │          │ Sensitive to tail differences                      │
+  └──────────┴────────────────────────────────────────────────────┘
+
+Monitoring strategy:
+  1. Compute drift metrics per feature on a schedule (hourly/daily)
+  2. Alert when PSI > threshold on critical features
+  3. Retrain on recent data when drift is confirmed
+  4. Track business KPIs alongside drift — drift without KPI impact may not need action

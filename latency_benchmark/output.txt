@@ -1,0 +1,76 @@
+LATENCY-CONSTRAINED INFERENCE DEMO
+============================================================
+
+PART 1: SINGLE-SAMPLE LATENCY
+============================================================
+
+  Model                        Accuracy   Mean µs    P95 µs    P99 µs
+  -----------------------------------------------------------------
+  Logistic Regression            0.8250      44.6      48.0      73.7
+  Decision Tree (d=5)            0.8283      56.0      58.6      62.1
+  Decision Tree (d=20)           0.8560      54.6      57.0      60.2
+  Random Forest (50)             0.9263    1291.5    1493.6    2224.9
+  Random Forest (200)            0.9303    4555.7    4895.9    5147.1
+  Random Forest (500)            0.9313   11755.0   13214.1   20635.7
+  Gradient Boosting (50)         0.8933     128.4     135.2     145.5
+  Gradient Boosting (200)        0.9213     157.0     176.8     278.9
+  XGBoost (50)                   0.9373     209.3     260.1     310.5
+  XGBoost (200)                  0.9413     201.5     244.3     293.1
+
+============================================================
+PART 2: BATCH LATENCY (amortized)
+============================================================
+
+  Model                          1 sample  100 batch   1K batch  Speedup
+  --------------------------------------------------------------------
+  Logistic Regression               42.8µs      0.04ms      0.05ms   780.2×
+  Decision Tree (d=5)               56.3µs      0.06ms      0.08ms   669.5×
+  Decision Tree (d=20)              54.9µs      0.06ms      0.09ms   629.0×
+  Random Forest (50)              1302.9µs      1.47ms      4.10ms   318.2×
+  Random Forest (200)             4654.9µs      6.48ms     17.60ms   264.5×
+  Random Forest (500)            11510.5µs     15.94ms     45.44ms   253.3×
+  Gradient Boosting (50)           125.5µs      0.16ms      0.75ms   166.6×
+  Gradient Boosting (200)          152.3µs      0.30ms      2.13ms    71.7×
+  XGBoost (50)                     206.0µs      0.23ms      0.33ms   620.9×
+  XGBoost (200)                    206.4µs      0.33ms      0.60ms   343.6×
+
+============================================================
+PART 3: SLA COMPLIANCE (50ms budget)
+============================================================
+
+  If your SLA is 50ms total (including network, preprocessing):
+  Assume ~30ms for network + preprocessing → 20000µs for model inference
+
+  Model                           P95 µs  Fits SLA?
+  --------------------------------------------------
+  Logistic Regression               48.0      ✓ YES
+  Decision Tree (d=5)               58.6      ✓ YES
+  Decision Tree (d=20)              57.0      ✓ YES
+  Random Forest (50)              1493.6      ✓ YES
+  Random Forest (200)             4895.9      ✓ YES
+  Random Forest (500)            13214.1      ✓ YES
+  Gradient Boosting (50)           135.2      ✓ YES
+  Gradient Boosting (200)          176.8      ✓ YES
+  XGBoost (50)                     260.1      ✓ YES
+  XGBoost (200)                    244.3      ✓ YES
+
+  Best model within SLA: XGBoost (200)
+    Accuracy: 0.9413, P95 latency: 244µs
+
+→ Plot saved: plots/latency_benchmark.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Optimization techniques (when model is too slow):
+  1. Model distillation  — train a small student to mimic a large teacher
+  2. Quantization        — 32-bit → 8-bit weights (4× smaller, ~2× faster)
+  3. Pruning             — remove near-zero weights
+  4. Feature caching     — precompute expensive features
+  5. Batching            — group requests for GPU efficiency
+  6. ONNX Runtime        — optimized inference engine
+  7. Simpler model       — LR is 100× faster than RF-500 with ~1% accuracy loss
+
+Production rule: measure P95/P99, not mean. A mean of 10ms with P99 of 500ms
+means 1% of users wait half a second — unacceptable for real-time.

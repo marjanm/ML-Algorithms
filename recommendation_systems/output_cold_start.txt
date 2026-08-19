@@ -1,0 +1,82 @@
+COLD START STRATEGY DEMO
+============================================================
+
+  Dataset: 50 users × 30 items
+  Sparsity: 61.5% missing
+  Genres: Action, Comedy, Drama, SciFi, Romance
+
+============================================================
+PART 1: COLD START FAILURE
+============================================================
+
+  New user with 0 ratings:
+  CF recommendation: [ 7  5 21 23 17]
+
+  Existing user with 19 ratings:
+  CF top-5: [ 2 21  7  1  8]
+  Preference alignment: 0.233
+
+============================================================
+PART 2: COLD START STRATEGIES
+============================================================
+
+  A) Popularity fallback:
+     Top-5: ['Movie_2', 'Movie_7', 'Movie_21', 'Movie_23', 'Movie_28']
+     Alignment: 0.268
+     → Works for everyone but not personalized
+
+  B) Content-based (after rating 3 items):
+     Top-5: ['Movie_5', 'Movie_4', 'Movie_7', 'Movie_9', 'Movie_10']
+     Alignment: 0.321
+     → Uses item features, doesn't need other users
+
+  C) Hybrid (blend popularity + content):
+     Top-5: ['Movie_7', 'Movie_5', 'Movie_9', 'Movie_4', 'Movie_10']
+     Alignment: 0.321
+
+  Summary:
+  Strategy                        Alignment
+  ------------------------------------------
+  Popularity (0 ratings)              0.268
+  Content-based (3 ratings)           0.321
+  Hybrid (3 ratings)                  0.321
+
+============================================================
+PART 3: ONBOARDING — IMPROVEMENT WITH MORE RATINGS
+============================================================
+
+   # Ratings | Popularity |    Content |         CF
+  -----------------------------------------------
+           0 |      0.268 |      0.000 |      0.000
+           1 |      0.268 |      0.385 |      0.000
+           2 |      0.268 |      0.344 |      0.158
+           3 |      0.268 |      0.321 |      0.164
+           5 |      0.268 |      0.285 |      0.175
+           8 |      0.268 |      0.268 |      0.179
+          12 |      0.268 |      0.175 |      0.120
+          15 |      0.268 |      0.126 |      0.119
+
+→ Plot saved: plots/cold_start.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Cold start types:
+  • New user  — no interaction history → can't find similar users
+  • New item  — no one has rated it → can't compute item-item similarity
+
+Strategies:
+  ┌─────────────────────────┬──────────────────────────────────────┐
+  │ Popularity fallback     │ Safe default. Not personalized.      │
+  │ Content-based bootstrap │ Uses item metadata. Works with 1-3   │
+  │                         │ ratings. No other users needed.      │
+  │ Hybrid                  │ Blend CF + content. Best overall.    │
+  │ Onboarding questions    │ "Pick 5 genres you like" — Netflix   │
+  │                         │ does this on signup.                 │
+  │ Exploration (bandit)    │ Show diverse items to learn prefs    │
+  │                         │ quickly. Explore-exploit tradeoff.   │
+  └─────────────────────────┴──────────────────────────────────────┘
+
+Real-world: Netflix's signup screen asks you to pick genres → instant
+content-based profile → CF kicks in after ~20 ratings.

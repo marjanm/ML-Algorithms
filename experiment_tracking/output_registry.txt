@@ -1,0 +1,74 @@
+MLFLOW MODEL REGISTRY & MONITORING DEMO
+============================================================
+
+PART 1: MODEL REGISTRY LIFECYCLE
+============================================================
+
+  V1 trained: accuracy=0.9100, f1=0.9100
+  V2 trained: accuracy=0.9025, f1=0.9025
+
+  Created registered model: 'fraud_detector'
+  Registered V1 as version 1
+  Registered V2 as version 2
+
+  V1 → Staging
+  V1 → Production (initial deploy)
+  V2 → Staging (validation)
+
+  Version comparison:
+    V1 (Production): accuracy=0.9100
+    V2 (Staging):    accuracy=0.9025
+
+  V1 still better → V2 stays in Staging
+
+  Final registry state:
+    Version 2: stage=Staging
+    Version 1: stage=Production
+
+============================================================
+PART 2: MONITORING VIA MLFLOW (simulated 8 weeks)
+============================================================
+
+ Week |  Accuracy |     F1 |      PSI | Action
+-------------------------------------------------------
+    1 |     0.838 |  0.838 |   0.0323 | ✓ OK
+    2 |     0.748 |  0.748 |   0.1185 | ✓ OK
+    3 |     0.680 |  0.695 |   0.4074 | ✗ RETRAIN TRIGGERED
+    4 |     0.805 |  0.813 |   0.8234 | ✓ OK
+    5 |     0.815 |  0.819 |   1.4373 | ✓ OK
+    6 |     0.845 |  0.850 |   2.3808 | ✓ OK
+    7 |     0.868 |  0.874 |   3.1424 | ✓ OK
+    8 |     0.865 |  0.877 |   4.0202 | ✓ OK
+
+============================================================
+PART 3: AUTOMATED RETRAIN & VERSION PROMOTION
+============================================================
+
+  V3 retrained on drifted data: accuracy=1.0000
+  V3 registered as version 3 → Production
+  Previous production model → Archived
+
+  Final registry state:
+    Version 3: stage=Production
+    Version 1: stage=Archived
+    Version 2: stage=Staging
+
+============================================================
+SUMMARY
+============================================================
+
+  What this demo showed:
+  1. Registry lifecycle: None → Staging → Production → Archived
+  2. Version comparison: promote better model, archive old one
+  3. Monitoring: log drift + accuracy as MLflow metrics per time window
+  4. Retraining trigger: PSI > 0.25 → retrain → new version → promote
+
+  To explore in the MLflow UI:
+    cd /Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking
+    mlflow ui
+    open http://localhost:5000
+
+  You'll see:
+    - registry_demo experiment: V1, V2, V3 with version transitions
+    - production_monitoring experiment: weekly drift + accuracy metrics
+    - Model Registry tab: version history with stage transitions

@@ -1,0 +1,23 @@
+=================================================================
+  REGULARIZATION  —  Demo
+=================================================================
+  True function: sin(2πx) + noise
+  Train samples: 30, Test samples: 100
+
+  No reg (deg=1): train_MSE=0.2990, test_MSE=0.2806, max|coef|=1.82, zeros=1/2
+  Ridge L2 (deg=1): train_MSE=0.3223, test_MSE=0.3194, max|coef|=1.27, zeros=1/2
+  Lasso L1 (deg=1): train_MSE=0.3003, test_MSE=0.2853, max|coef|=1.69, zeros=1/2
+
+  No reg (deg=4): train_MSE=0.0633, test_MSE=0.1121, max|coef|=31.16, zeros=1/5
+  Ridge L2 (deg=4): train_MSE=0.3104, test_MSE=0.2904, max|coef|=0.82, zeros=1/5
+  Lasso L1 (deg=4): train_MSE=0.2930, test_MSE=0.2847, max|coef|=1.83, zeros=3/5
+
+  No reg (deg=15): train_MSE=0.0402, test_MSE=1.5137, max|coef|=9491089254.74, zeros=1/16
+  Ridge L2 (deg=15): train_MSE=0.2131, test_MSE=0.2343, max|coef|=0.82, zeros=1/16
+  Lasso L1 (deg=15): train_MSE=0.1687, test_MSE=0.1971, max|coef|=2.87, zeros=14/16
+
+  Takeaway:
+    - No regularisation + high degree → wild oscillations (overfitting)
+    - Ridge (L2) → shrinks all coefficients, smooths the curve
+    - Lasso (L1) → zeros out coefficients → automatic feature selection
+=================================================================

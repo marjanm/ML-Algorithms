@@ -1,0 +1,77 @@
+UNCERTAINTY ESTIMATION — DEMO
+============================================================
+
+  Train: 700, Test: 300, OOD: 5
+
+============================================================
+METHOD 1: STANDARD SOFTMAX (baseline)
+============================================================
+
+  Accuracy (test): 0.9767
+  Mean confidence (test):  0.9794
+  Mean confidence (OOD):   1.0000
+  → Softmax is overconfident even on OOD points!
+
+============================================================
+METHOD 2: MC DROPOUT (50 forward passes)
+============================================================
+
+  Accuracy (test): 0.9767
+  Mean uncertainty (test): 0.0256
+  Mean uncertainty (OOD):  0.1696
+  → MC Dropout is more uncertain on OOD points
+
+============================================================
+METHOD 3: DEEP ENSEMBLE (5 independent models)
+============================================================
+
+  Accuracy (test): 0.9733
+  Mean uncertainty (test): 0.0037
+  Mean uncertainty (OOD):  0.1599
+  → Ensemble gives highest OOD uncertainty
+
+============================================================
+UNCERTAINTY vs CORRECTNESS
+============================================================
+
+  Softmax:
+    Uncertainty when CORRECT: 0.0168
+    Uncertainty when WRONG:   0.1321
+    Ratio (want >> 1):        7.85x
+
+  MC Dropout:
+    Uncertainty when CORRECT: 0.0230
+    Uncertainty when WRONG:   0.1902
+    Ratio (want >> 1):        8.26x
+
+  Ensemble:
+    Uncertainty when CORRECT: 0.0025
+    Uncertainty when WRONG:   0.1155
+    Ratio (want >> 1):        45.37x
+
+→ Plot saved: plots/uncertainty_estimation.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+  ┌─────────────────┬──────────────────────────────────────────┐
+  │ Method          │ How it works                             │
+  ├─────────────────┼──────────────────────────────────────────┤
+  │ Softmax         │ Single forward pass. Overconfident.      │
+  │                 │ NOT a real probability.                   │
+  │ MC Dropout      │ N forward passes with dropout ON.        │
+  │                 │ Cheap. Approximates Bayesian inference.  │
+  │ Deep Ensemble   │ Train M models with different seeds.     │
+  │                 │ Best quality. M× training cost.          │
+  │ Temperature     │ Scale logits before softmax.             │
+  │ scaling         │ Calibrates probabilities (see calib/).   │
+  │ Bayesian NN     │ Full posterior over weights.             │
+  │                 │ Theoretically ideal, hard to scale.      │
+  └─────────────────┴──────────────────────────────────────────┘
+
+  When to use:
+    • Medical/safety-critical: ensemble + abstain on high uncertainty
+    • Active learning: query labels for high-uncertainty points
+    • OOD detection: flag inputs the model hasn't seen before
+    • Debugging: high uncertainty on "easy" examples → data issue

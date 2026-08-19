@@ -1,0 +1,66 @@
+CAUSAL INFERENCE DEMO
+============================================================
+============================================================
+PART 1: SIMPSON'S PARADOX
+============================================================
+
+Overall (MISLEADING):
+  Drug group:    285/500 = 57% recovered
+  Control group: 330/500  = 66% recovered
+  → Drug looks WORSE! (57% vs 66%)
+
+Stratified by severity (CORRECT):
+  Mild   — Drug: 85/100 = 85%  |  Control: 300/400 = 75%
+  Severe — Drug: 200/400 = 50%  |  Control: 30/100 = 30%
+  → Drug is BETTER in BOTH subgroups!
+
+Why the reversal?
+  Severe patients were more likely to get the drug (400 vs 100)
+  Severity is a confounder — it affects both treatment assignment and outcome
+
+→ Plot saved: plots/simpsons_paradox.png
+
+============================================================
+PART 2: PROPENSITY SCORE MATCHING
+============================================================
+
+True causal effect: +15%
+
+Naive comparison (BIASED):
+  Treated:   0.603
+  Control:   0.585
+  Estimated effect: +0.018  (true: +0.150)
+  → Bias because sicker patients get treatment more often
+
+Inverse Propensity Weighting (IPW):
+  Estimated effect: +0.154  (true: +0.150)
+
+Stratified by propensity quintiles:
+  Estimated effect: +0.145  (true: +0.150)
+→ Plot saved: plots/propensity_matching.png
+
+============================================================
+PART 3: KEY CAUSAL CONCEPTS
+============================================================
+
+Correlation ≠ Causation — Three ways correlation arises without causation:
+  1. Confounding:  Z → X and Z → Y  (ice cream sales ↔ drowning, confounder: hot weather)
+  2. Reverse causation:  Y → X  (hospitals have high death rates — sick people go there)
+  3. Collider bias:  conditioning on a common effect creates spurious association
+
+The Causal Toolbox:
+  ┌─────────────────────────┬──────────────────────────────────────────┐
+  │ Method                  │ When to use                              │
+  ├─────────────────────────┼──────────────────────────────────────────┤
+  │ Randomized experiment   │ Gold standard. You control treatment.    │
+  │ Propensity matching     │ Observational data, measured confounders │
+  │ Instrumental variables  │ Unmeasured confounders, valid instrument │
+  │ Difference-in-diff      │ Before/after with control group          │
+  │ Regression discontinuity│ Sharp cutoff determines treatment        │
+  └─────────────────────────┴──────────────────────────────────────────┘
+
+Do-Calculus (Pearl):
+  P(Y | do(X=1)) ≠ P(Y | X=1)
+  "do" means intervening (setting X), not just observing X.
+  The adjustment formula: P(Y|do(X)) = Σ_z P(Y|X,Z) P(Z)
+  where Z is the set of confounders to adjust for.

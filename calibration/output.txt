@@ -1,0 +1,75 @@
+CALIBRATION DEMO
+============================================================
+
+PART 1: UNCALIBRATED MODELS
+============================================================
+
+Model                      Brier ↓ Log Loss ↓
+---------------------------------------------
+Logistic Regression         0.1221     0.3915
+Random Forest               0.0661     0.2486
+Gradient Boosting           0.0679     0.2389
+Naive Bayes                 0.1358     0.4364
+SVM (RBF)                   0.0393     0.1560
+
+============================================================
+PART 2: CALIBRATED MODELS
+============================================================
+
+  --- SIGMOID calibration ---
+  Model                      Brier ↓  Improvement
+  -----------------------------------------------
+  Logistic Regression         0.1220     +0.0001
+  Random Forest               0.0485     +0.0176
+  Gradient Boosting           0.0652     +0.0027
+  Naive Bayes                 0.1368     -0.0010
+  SVM (RBF)                   0.0397     -0.0004
+
+  --- ISOTONIC calibration ---
+  Model                      Brier ↓  Improvement
+  -----------------------------------------------
+  Logistic Regression         0.1217     +0.0004
+  Random Forest               0.0497     +0.0164
+  Gradient Boosting           0.0662     +0.0017
+  Naive Bayes                 0.1340     +0.0018
+  SVM (RBF)                   0.0398     -0.0005
+
+============================================================
+PART 3: ANALYSIS
+============================================================
+
+  Which models need calibration most?
+    Logistic Regression: Brier changed by +0.0004 — already well-calibrated
+    Random Forest: Brier improved by 0.0176 — NEEDS calibration
+    Gradient Boosting: Brier changed by +0.0027 — already well-calibrated
+    Naive Bayes: Brier changed by +0.0018 — already well-calibrated
+    SVM (RBF): Brier changed by -0.0004 — already well-calibrated
+
+  Practical impact example:
+    RF says >80% confidence for 471 samples
+    Actual positive rate: 97.9%
+    MISCALIBRATED — actual rate differs from 80%
+    After isotonic: >80% confidence for 664 samples
+    Actual positive rate: 97.4%
+
+→ Plot saved: plots/calibration.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+Calibration methods:
+  • Platt scaling (sigmoid) — fits a logistic regression on raw scores.
+    Works well when miscalibration is monotonic (just needs rescaling).
+  • Isotonic regression — fits a non-parametric monotonic step function.
+    More flexible, but needs more calibration data (~1000+ samples).
+
+Brier score = mean((predicted_prob - actual_outcome)²)
+  Lower is better. Decomposable into reliability + resolution + uncertainty.
+
+Which models are naturally calibrated?
+  • Logistic Regression — usually well-calibrated (it optimizes log-loss)
+  • Gradient Boosting — reasonably good, but drifts with many trees
+  • Random Forest — pushes probabilities toward 0 and 1 (poor calibration)
+  • Naive Bayes — pushes toward extremes due to independence assumption
+  • SVM — probabilities are retrofitted (Platt scaling internally), often poor

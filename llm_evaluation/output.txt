@@ -1,0 +1,90 @@
+LLM EVALUATION — DEMO
+============================================================
+
+============================================================
+BLEU SCORES (n-gram precision)
+============================================================
+
+  BLEU measures: of the n-grams in the CANDIDATE, how many appear in the reference?
+  → Penalizes candidates that add wrong words (precision-focused)
+
+  Case                     BLEU-1   BLEU-2   BLEU-4
+  --------------------------------------------------
+  Good translation         1.0000   1.0000   1.0000
+  Decent paraphrase        0.5455   0.4045   0.2597
+  Partial overlap          0.3723   0.2843   0.4304
+  Completely wrong         0.0000   0.0000   0.0000
+  Too short                0.0183   0.0183   0.0183
+  Too verbose              0.3226   0.1796   0.4238
+
+============================================================
+ROUGE SCORES (n-gram recall)
+============================================================
+
+  ROUGE measures: of the n-grams in the REFERENCE, how many appear in the candidate?
+  → Penalizes candidates that miss reference content (recall-focused)
+
+  Case                    ROUGE-1  ROUGE-2  ROUGE-L
+  --------------------------------------------------
+  Good translation         1.0000   1.0000   1.0000
+  Decent paraphrase        0.5714   0.3158   0.5714
+  Partial overlap          0.4706   0.2667   0.4706
+  Completely wrong         0.0000   0.0000   0.0000
+  Too short                0.3333   0.0000   0.3333
+  Too verbose              0.4878   0.1538   0.4878
+
+============================================================
+LLM-AS-JUDGE SCORES (simulated)
+============================================================
+
+  In practice, you send this prompt to GPT-4/Claude:
+    'Rate the following response on a 1-5 scale for coverage, fluency,
+     and length appropriateness. Reference: ... Candidate: ...'
+
+  Case                    Coverage  Fluency   Length  Overall
+  ----------------------------------------------------------
+  Good translation             5.0      2.7      5.0      4.2
+  Decent paraphrase            3.8      2.7      4.8      3.8
+  Partial overlap              1.9      3.1      4.2      3.1
+  Completely wrong             0.0      3.9      4.2      2.7
+  Too short                    1.2      2.5      3.0      2.2
+  Too verbose                  5.0      3.4      0.0      2.8
+
+============================================================
+WHEN METRICS DISAGREE
+============================================================
+
+  Case                     BLEU-4  ROUGE-L    Judge  Analysis
+  ---------------------------------------------------------------------------
+  Good translation         1.0000   1.0000      4.2  All agree: perfect match
+  Decent paraphrase        0.2597   0.5714      3.8  BLEU down (new words), ROUGE OK (covers ref)
+  Partial overlap          0.4304   0.4706      3.1  All low — limited overlap
+  Completely wrong         0.0000   0.0000      2.7  All ~0 — no semantic match
+  Too short                0.0183   0.3333      2.2  BLEU penalized (too short), ROUGE OK (words match)
+  Too verbose              0.4238   0.4878      2.8  BLEU OK (ref words present), ROUGE high (covers ref)
+
+→ Plot saved: plots/llm_evaluation.png
+
+============================================================
+KEY CONCEPTS
+============================================================
+
+  ┌────────────┬────────────────────────────────────────────┐
+  │ Metric     │ What it measures                           │
+  ├────────────┼────────────────────────────────────────────┤
+  │ BLEU       │ Precision: are candidate words correct?    │
+  │ ROUGE      │ Recall: are reference words covered?       │
+  │ ROUGE-L    │ Longest common subsequence (word order)    │
+  │ BERTScore  │ Semantic similarity via BERT embeddings    │
+  │ METEOR     │ Combines precision, recall, synonyms       │
+  │ LLM-judge  │ Holistic: fluency, factuality, relevance  │
+  └────────────┴────────────────────────────────────────────┘
+
+  Limitations:
+    • BLEU/ROUGE only match exact words — "car" ≠ "automobile"
+    • Both ignore semantic meaning entirely
+    • LLM-as-judge is expensive but most correlated with human preference
+    • For open-ended generation, human eval is still the gold standard
+
+  Best practice: use BLEU/ROUGE as cheap filters, LLM-as-judge for
+  final evaluation, human eval for critical decisions.

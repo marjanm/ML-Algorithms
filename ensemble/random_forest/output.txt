@@ -1,0 +1,22 @@
+==================================================
+  RANDOM FOREST  —  Results
+==================================================
+  Accuracy   : 0.9030
+  Precision  : 0.9031
+  Recall     : 0.9030
+  F1 Score   : 0.9030
+  ROC AUC    : 0.9565
+  Train time : 0.320s
+  Predict    : 0.0655s
+  OOB Score  : 0.9030
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.90      0.91      0.90       498
+           1       0.91      0.89      0.90       502
+
+    accuracy                           0.90      1000
+   macro avg       0.90      0.90      0.90      1000
+weighted avg       0.90      0.90      0.90      1000

@@ -1,0 +1,47 @@
+======================================================================
+  TF-IDF — FROM SCRATCH
+======================================================================
+  Documents  : 8
+  Vocabulary : 39 unique words
+
+  Example — Doc 0: "the cat sat on the mat"
+  TF (term frequency):
+    the             : 0.3333
+    cat             : 0.1667
+    sat             : 0.1667
+    on              : 0.1667
+    mat             : 0.1667
+
+  IDF (inverse document frequency) — selected words:
+    the             : 0.6931  (appears in 4 docs)
+    cat             : 1.3863  (appears in 2 docs)
+    dog             : 1.3863  (appears in 2 docs)
+    machine         : 1.3863  (appears in 2 docs)
+    learning        : 1.3863  (appears in 2 docs)
+    transformer     : 2.0794  (appears in 1 docs)
+    friends         : 2.0794  (appears in 1 docs)
+
+  Top TF-IDF words per document (most distinctive):
+    Doc 0: "the cat sat on the mat                            " → mat=0.347, on=0.231, the=0.231
+    Doc 1: "the dog sat on the log                            " → log=0.347, on=0.231, the=0.231
+    Doc 2: "cats and dogs are friends                         " → cats=0.416, are=0.416, friends=0.416
+    Doc 3: "the cat chased the dog around the house           " → house=0.260, the=0.260, around=0.260
+    Doc 4: "machine learning is a branch of artificial intelli" → a=0.260, artificial=0.260, is=0.260
+    Doc 5: "deep learning uses neural networks for machine lea" → learning=0.308, for=0.231, neural=0.231
+    Doc 6: "natural language processing deals with text and sp" → with=0.260, deals=0.260, text=0.260
+    Doc 7: "the transformer architecture revolutionized natura" → transformer=0.297, architecture=0.297, revolutionized=0.297
+
+  Document similarity (cosine of TF-IDF vectors):
+    Doc 0 ↔ Doc 1 : 0.4800  ("the cat sat on the mat" vs "the dog sat on the log")
+    Doc 0 ↔ Doc 4 : 0.0000  ("the cat sat on the mat" vs "machine learning is a branch o")
+    Doc 4 ↔ Doc 5 : 0.1772  ("machine learning is a branch o" vs "deep learning uses neural netw")
+    Doc 6 ↔ Doc 7 : 0.2631  ("natural language processing de" vs "the transformer architecture r")
+    Doc 0 ↔ Doc 7 : 0.0632  ("the cat sat on the mat" vs "the transformer architecture r")
+
+  Key formulas:
+    TF(t,d)  = count(t in d) / total_words_in_d
+    IDF(t)   = log(N / docs_containing_t)
+    TF-IDF   = TF × IDF
+    High TF-IDF → word is distinctive to this document
+    Low TF-IDF  → word is common across all documents ("the", "is")
+======================================================================

@@ -1,0 +1,23 @@
+============================================================
+  TRANSFORMER (from scratch)  —  Results
+============================================================
+  d_model      : 64
+  n_heads      : 4
+  n_layers     : 2
+  d_ff         : 128
+  vocab_size   : 50
+  seq_len      : 15
+  Epochs       : 30
+  Final acc    : 0.8450
+============================================================
+
+How it works:
+  1. Token IDs are converted to dense vectors (embeddings)
+  2. Positional encoding adds position info (sine/cosine signals)
+  3. Each transformer block applies self-attention: every token
+     looks at every other token and decides what to pay attention to
+  4. Multi-head attention runs this in parallel with different
+     learned projections (each head can focus on different patterns)
+  5. Feed-forward network processes each position independently
+  6. Residual connections + LayerNorm keep gradients flowing
+  7. Final: average pool all token representations -> classify

@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns/984552772836687900/52c86c94e21649fda2f337051c875c6d/artifacts
+end_time: 1772133467034
+entry_point_name: ''
+experiment_id: '984552772836687900'
+lifecycle_stage: active
+run_id: 52c86c94e21649fda2f337051c875c6d
+run_name: Random Forest (deep)
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1772133466596
+status: 3
+tags: []
+user_id: mmomtazpour

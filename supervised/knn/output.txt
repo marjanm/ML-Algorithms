@@ -1,0 +1,21 @@
+==================================================
+  KNN  —  Results
+==================================================
+  Accuracy   : 0.9060
+  Precision  : 0.9061
+  Recall     : 0.9060
+  F1 Score   : 0.9060
+  ROC AUC    : 0.9544
+  Train time : 0.001s
+  Predict    : 0.0284s
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.91      0.90      0.90       498
+           1       0.90      0.91      0.91       502
+
+    accuracy                           0.91      1000
+   macro avg       0.91      0.91      0.91      1000
+weighted avg       0.91      0.91      0.91      1000

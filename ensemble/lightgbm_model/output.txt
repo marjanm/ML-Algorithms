@@ -1,0 +1,24 @@
+==================================================
+  LIGHTGBM  —  Results
+==================================================
+  n_estimators  : 300
+  learning_rate : 0.05
+  num_leaves    : 31
+  boosting      : gbdt
+  Accuracy      : 0.8980
+  Precision     : 0.8981
+  Recall        : 0.8980
+  F1 Score      : 0.8980
+  ROC AUC       : 0.9578
+  Train time    : 1.8778s
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.89      0.91      0.90       498
+           1       0.90      0.89      0.90       502
+
+    accuracy                           0.90      1000
+   macro avg       0.90      0.90      0.90      1000
+weighted avg       0.90      0.90      0.90      1000

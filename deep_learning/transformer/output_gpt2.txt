@@ -1,0 +1,87 @@
+
+============================================================
+   GPT-2  —  Text Generation Demo (no fine-tuning)
+============================================================
+
+  Model: gpt2 (124M parameters, decoder-only transformer)
+  Source: Hugging Face (pre-trained by OpenAI)
+  This model predicts the next token autoregressively.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1.  TEXT GENERATION  (GPT-2)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Prompt: "Artificial intelligence will"
+  Output: Artificial intelligence will eventually enable us to predict what we'll do when faced with the task of building a robot that can help you understand how your home might look like.
+
+  Prompt: "The future of machine learning is"
+  Output: The future of machine learning is now open to the public. In fact, many more companies are building neural networks on top or at least using them for specific tasks in order to learn new things with greater accuracy than before (e-learning).
+This paper describes how we can use these tools and applications together from several different perspectives:
+
+  Prompt: "In a world where robots"
+  Output: In a world where robots are increasingly becoming the norm, one of my favorite things to do is just play with them.
+We can't control their behaviour if we don`t know how they work and then have that "game changer" who has been programmed for us in our mind which will let you take over or
+
+  Prompt: "The most important thing about deep learning is"
+  Output: The most important thing about deep learning is that it's actually incredibly flexible.
+I've mentioned before, I don't want to get into what a neural network can do because there are many other things we could use for this type of approach (like image recognition). But let me give you an example: Suppose our current model shows us three
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2.  TEMPERATURE COMPARISON
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  (same prompt, different temperature values)
+
+  temp=0.3: The key to understanding neural networks is to understand how they work. The key to understanding neural networks is to understand how they work.
+
+The key to understanding neural networks is to understand how they work.
+
+The key to understanding
+
+  temp=0.7: The key to understanding neural networks is to understand how they work. There are many different ways of understanding neural networks, but the most important is to understand how they work.
+
+In this section, we are going to focus on the
+
+  temp=1.0: The key to understanding neural networks is the idea of the'machine', a kind of'machine brain'. Its basic concept is that those working in networked 'intelligent' AI systems can 'program' their brains to predict and respond
+
+  temp=1.5: The key to understanding neural networks is the idea of which submodules of memory are targeted for prediction over which network. The two central processes that generate network results are the top-down kernel task (aka kernel output [23] and posterior
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3.  STYLE COMPLETION
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Prompt: "Dear Sir or Madam, I am writing to..."
+  Output: Dear Sir or Madam, I am writing to you to ask you to be my guest at a special dinner for the new President of the United States, and I hope you will be able to attend.
+         
+         I am writing to you to ask you to be my guest at a special dinner for
+
+  Prompt: "def fibonacci(n):
+    """..."
+  Output: def fibonacci(n):
+             """ Returns the number of Fibonacci numbers. """ return n >>> n > 0 >>> fib(n, 1, fib(n))
+         
+         We can see that the function can be called by any number of different numbers.
+         
+         In the above
+
+  Prompt: "Once upon a time in a galaxy far, far away,..."
+  Output: Once upon a time in a galaxy far, far away, this galaxy was a small, dense galaxy. It was a galaxy that was so small that the planets that formed it were very small. But it was a galaxy where the stars were small enough that they could not be seen. It was a galaxy where
+
+  Prompt: "Breaking news: Scientists have discovered..."
+  Output: Breaking news: Scientists have discovered the first human genome to be a match for the DNA of two closely related primates
+         
+         The discovery comes as a group of scientists are trying to establish the human genome.
+         
+         The discovery, reported in the journal Nature, could shed new light on
+
+============================================================
+   Key LLM Concepts Demonstrated:
+============================================================
+  - Autoregressive generation: predict one token at a time
+  - Temperature: controls randomness (0 = deterministic, >1 = creative)
+  - Top-k sampling: only consider the k most likely next tokens
+  - Top-p (nucleus): sample from smallest set of tokens summing to p
+  - Repetition penalty: discourage repeating the same phrases
+  - The model was never trained on these specific prompts
+    — it generalises from patterns seen in its training data
+============================================================
+

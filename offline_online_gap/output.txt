@@ -1,0 +1,109 @@
+OFFLINE vs ONLINE GAP — CASE STUDY
+============================================================
+Your model works offline but fails online. Three reasons why.
+
+============================================================
+SCENARIO 1: FEATURE SKEW
+============================================================
+
+  Training pipeline computes user_avg_spend from full history.
+  Serving pipeline uses a cached value updated every 24h.
+  Result: same model, different feature values → different predictions.
+
+   Noise Level |   Accuracy |        AUC |      Δ Acc
+  --------------------------------------------------
+       offline |     1.0000 |     1.0000 |    +0.0000
+      5% noise |     0.9883 |     0.9918 |    -0.0117
+     10% noise |     0.9850 |     0.9891 |    -0.0150
+     20% noise |     0.9700 |     0.9789 |    -0.0300
+     40% noise |     0.9450 |     0.9622 |    -0.0550
+
+  Fix: validate feature distributions between training and serving
+  pipelines. Log feature stats at both points and alert on divergence.
+
+============================================================
+SCENARIO 2: DISTRIBUTION SHIFT
+============================================================
+
+  Model trained on Jan-Jun data. Deployed Jul onward.
+  User demographics shift (younger users join), spending patterns change.
+
+   Month |   Accuracy |         F1 |          Status
+  ------------------------------------------------
+       1 |     0.8140 |     0.7224 |                
+       2 |     0.8380 |     0.7638 |                
+       3 |     0.8280 |     0.7425 |                
+       4 |     0.8060 |     0.7399 |                
+       5 |     0.8200 |     0.7472 |                
+       6 |     0.8420 |     0.7812 |                
+       7 |     0.7980 |     0.7531 |      ⚠ drifting
+       8 |     0.8020 |     0.7543 |      ⚠ drifting
+       9 |     0.7320 |     0.6732 |      ⚠ drifting
+      10 |     0.7600 |     0.6970 |      ⚠ drifting
+      11 |     0.6700 |     0.6062 |      ⚠ drifting
+      12 |     0.6600 |     0.5729 |      ⚠ drifting
+
+  Fix: monitor prediction distributions weekly. Retrain when
+  PSI > 0.2 or accuracy drops > 5% from baseline (see drift_detection/).
+
+============================================================
+SCENARIO 3: LABEL LEAKAGE
+============================================================
+
+  Predicting "will customer churn next month?".
+  Feature "days_since_last_login" is computed at label time, not prediction time.
+  At train time it perfectly separates churners. At serve time it doesn't exist yet.
+
+
+  Scenario             |   Accuracy |        AUC
+  ---------------------------------------------
+  With leakage         |     1.0000 |     1.0000
+  Without leakage      |     1.0000 |     1.0000
+
+  Feature importances WITH leakage:
+    tenure                 0.000 
+    support_tickets        0.134 ██████
+    satisfaction           0.866 ███████████████████████████████████████████
+    days_since_login*      0.000 
+
+  Feature importances WITHOUT leakage:
+    tenure                 0.000 
+    support_tickets        0.134 ██████
+    satisfaction           0.866 ███████████████████████████████████████████
+
+  The leaked feature dominates (importance ≈ 0.9). Without it, the model
+  is honest — 70-80% AUC from real features.
+
+  Fix: audit every feature — "could I compute this BEFORE making the prediction?"
+  If the answer is no, it's leakage. Common culprits:
+    • Aggregates computed after the label period
+    • IDs that correlate with outcome (e.g., hospital ID → mortality)
+    • Features derived from the target variable
+
+
+→ Plot saved: plots/offline_online_gap.png
+
+============================================================
+SUMMARY: CLOSING THE OFFLINE-ONLINE GAP
+============================================================
+
+  ┌──────────────────┬────────────────────────────────────────┐
+  │ Problem          │ Fix                                    │
+  ├──────────────────┼────────────────────────────────────────┤
+  │ Feature skew     │ Log feature stats at train & serve.    │
+  │                  │ Alert on distribution divergence.      │
+  │                  │ Use a feature store for consistency.   │
+  ├──────────────────┼────────────────────────────────────────┤
+  │ Distrib. shift   │ Monitor predictions weekly. Retrain    │
+  │                  │ when PSI > 0.2 or acc drops > 5%.      │
+  ├──────────────────┼────────────────────────────────────────┤
+  │ Label leakage    │ Audit every feature: "could I compute  │
+  │                  │ this BEFORE making the prediction?"    │
+  │                  │ Check feature importances for suspects.│
+  ├──────────────────┼────────────────────────────────────────┤
+  │ General          │ Shadow mode: run new model in parallel │
+  │                  │ with old one, compare outputs before   │
+  │                  │ switching traffic.                     │
+  └──────────────────┴────────────────────────────────────────┘
+
+  Golden rule: if offline AUC >> online AUC, suspect one of these three.

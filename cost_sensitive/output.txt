@@ -1,0 +1,69 @@
+COST-SENSITIVE LEARNING DEMO
+============================================================
+
+  Scenario: Fraud detection
+  Cost of missed fraud (FN): $10,000
+  Cost of false alarm  (FP): $50
+  Cost ratio: 200:1
+  Dataset: 10000 samples, 5.4% positive (fraud)
+
+============================================================
+PART 1: DEFAULT vs OPTIMAL THRESHOLD
+============================================================
+
+  Default threshold = 0.50:
+    TP=91, FP=15, FN=70, TN=2824
+    Accuracy: 0.972
+    Missed frauds: 70  ×  $10,000 = $700,000
+    False alarms:  15  ×  $50 = $750
+    TOTAL COST: $700,750
+
+  Optimal threshold = 0.01:
+    TP=139, FP=659, FN=22, TN=2180
+    Accuracy: 0.773
+    Missed frauds: 22  ×  $10,000 = $220,000
+    False alarms:  659  ×  $50 = $32,950
+    TOTAL COST: $252,950
+
+  Savings: $447,800 (64% reduction)
+
+============================================================
+PART 2: DIFFERENT COST RATIOS → DIFFERENT THRESHOLDS
+============================================================
+
+  Scenario              Cost FN  Cost FP  Best t   Total cost
+  ---------------------------------------------------------
+  Equal costs          $    100 $    100    0.35 $      8,200
+  FN 10x more          $  1,000 $    100    0.08 $     51,700
+  FN 200x more         $ 10,000 $     50    0.01 $    252,950
+  FP 5x more           $    100 $    500    0.92 $     11,800
+
+  → When FN is expensive, threshold drops (catch more positives)
+  → When FP is expensive, threshold rises (fewer false alarms)
+
+============================================================
+PART 3: EXPECTED VALUE PER PREDICTION
+============================================================
+
+  For each prediction, compute:
+    E[cost if flag]    = P(legit) × cost_FP = (1-p) × $50
+    E[cost if ignore]  = P(fraud) × cost_FN = p × $10000
+    Flag if E[cost if ignore] > E[cost if flag]
+    i.e., p × 10000 > (1-p) × 50
+    i.e., p > 50 / (10000 + 50) = 0.0050
+
+  Theoretical optimal threshold: 0.0050
+  Empirical optimal threshold:   0.01
+  (They differ because the model's probabilities aren't perfectly calibrated)
+
+  Sample decisions:
+    Prob | E[cost ignore] | E[cost flag] | Decision
+  ----------------------------------------------------
+    0.01 | $          100 | $         50 | FLAG
+    0.05 | $          500 | $         48 | FLAG
+    0.10 | $        1,000 | $         45 | FLAG
+    0.30 | $        3,000 | $         35 | FLAG
+    0.50 | $        5,000 | $         25 | FLAG
+    0.80 | $        8,000 | $         10 | FLAG
+
+→ Plot saved: plots/cost_sensitive.png

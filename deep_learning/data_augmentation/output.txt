@@ -1,0 +1,26 @@
+=================================================================
+  DATA AUGMENTATION  —  Demo
+=================================================================
+
+  [saved] augmentation examples → plots/augmentation_examples.png
+
+  ── CNN Comparison: With vs Without Augmentation ──
+  Using a small MNIST subset (1000 train samples) to amplify the effect.
+  Training for 15 epochs...
+
+                  |  Train Acc |   Test Acc
+  ----------------+------------+-----------
+  No augmentation |     0.9340 |     0.9190
+  With augment.   |     0.7540 |     0.9106
+
+  Augmentation effect on test accuracy: -0.0084
+  [saved] → plots/augmentation_impact.png
+
+  ── Key Takeaways ──
+    • Augmentation helps most when training data is scarce
+    • It acts as a regulariser — reduces overfitting (train acc lower, test acc higher)
+    • Common transforms: rotation, flip, crop, affine, color jitter, erasing
+    • Domain-specific: medical images may only allow rotation, not flipping
+    • Advanced: mixup, cutmix, AutoAugment (learned augmentation policies)
+
+=================================================================

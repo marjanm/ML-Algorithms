@@ -1,0 +1,68 @@
+============================================================
+  DECISION TREE SPLIT — FROM SCRATCH
+============================================================
+
+  First split (root node):
+    Best feature   : feature_1
+    Best threshold : -0.4336
+    Weighted Gini  : 0.2390
+    Information gain: 0.2610
+    Parent Gini    : 0.5000
+
+  Full tree (max_depth=5):
+    ROOT [feature_1 <= -0.4336]
+      L [feature_0 <= -1.8421]
+        L [feature_1 <= -4.4445]
+          L → predict class 0
+          R → predict class 1
+        R [feature_1 <= -0.8429]
+          L [feature_0 <= 0.8444]
+            L [feature_0 <= 0.8383]
+              L → predict class 0
+              R → predict class 1
+            R [feature_0 <= 1.8443]
+              L → predict class 0
+              R → predict class 0
+          R [feature_1 <= -0.8121]
+            L [feature_0 <= 0.6856]
+              L → predict class 1
+              R → predict class 0
+            R [feature_0 <= -1.2232]
+              L → predict class 1
+              R → predict class 0
+      R [feature_1 <= 0.0734]
+        L [feature_0 <= -0.6399]
+          L [feature_0 <= -0.8859]
+            L [feature_0 <= -1.2015]
+              L → predict class 1
+              R → predict class 0
+            R [feature_1 <= -0.4194]
+              L → predict class 1
+              R → predict class 0
+          R [feature_1 <= 0.0384]
+            L [feature_0 <= 0.4216]
+              L → predict class 1
+              R → predict class 0
+            R → predict class 0
+        R [feature_0 <= -0.0881]
+          L [feature_0 <= -0.7698]
+            L [feature_0 <= -3.1835]
+              L → predict class 1
+              R → predict class 1
+            R [feature_1 <= 1.6136]
+              L → predict class 0
+              R → predict class 1
+          R [feature_0 <= 0.5509]
+            L [feature_0 <= 0.5462]
+              L → predict class 1
+              R → predict class 0
+            R → predict class 1
+
+  Test accuracy: 0.8950
+
+  Key formulas:
+    Gini(node)    = 1 - Σ p_k²
+    Entropy(node) = -Σ p_k · log2(p_k)
+    Info gain     = parent_impurity - weighted_children_impurity
+    Split rule    : pick feature + threshold that maximises info gain
+============================================================

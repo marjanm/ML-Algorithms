@@ -1,0 +1,83 @@
+======================================================================
+  RECOMMENDATION SYSTEMS  —  Demo
+======================================================================
+
+  Dataset: 50 users × 30 movies
+  Ratings: 914 / 1500 (39.1% sparse)
+  Rating scale: 1.0 – 5.0 (0.5 increments)
+
+  Target user: User_0 (archetype: sci_fi_fan)
+  Movies they liked (≥ 4.0):
+    5.0 ★  Inception
+    5.0 ★  Avengers
+    5.0 ★  Dune
+    4.5 ★  Spider-Man
+    4.0 ★  Blade Runner
+    4.0 ★  Arrival
+
+  ── 1. User-User Collaborative Filtering ──
+  Most similar users:
+    User_27 (sim=0.755, archetype=action_fan)
+    User_2 (sim=0.705, archetype=action_fan)
+    User_5 (sim=0.666, archetype=sci_fi_fan)
+    User_35 (sim=0.641, archetype=sci_fi_fan)
+    User_10 (sim=0.588, archetype=sci_fi_fan)
+  Recommendations:
+    4.71 ★  Iron Man
+    4.19 ★  The Matrix
+    4.14 ★  The Dark Knight
+    3.87 ★  Parasite
+    3.64 ★  Memento
+
+  ── 2. Item-Item Collaborative Filtering ──
+  Recommendations:
+    4.75 ★  The Matrix
+    4.73 ★  The Dark Knight
+    4.72 ★  Iron Man
+    4.71 ★  Alien
+    4.48 ★  Memento
+
+  ── 3. Matrix Factorisation (SVD) ──
+  Latent factors: 5
+  RMSE on known ratings: 0.4851
+  Variance explained by top factors: 98.2%
+  Recommendations:
+    4.28 ★  The Matrix
+    4.07 ★  Iron Man
+    3.82 ★  The Dark Knight
+    3.58 ★  Interstellar
+    3.56 ★  Alien
+  [saved] → plots/svd_factors.png
+
+  ── 4. Content-Based Filtering ──
+  Recommendations (based on genre profile):
+    score=1.289  The Matrix
+    score=1.289  Iron Man
+    score=0.816  Interstellar
+    score=0.816  Alien
+    score=0.730  The Dark Knight
+
+  ── 5. Comparison of Approaches ──
+
+  Method                              | Top recommendation
+  ------------------------------------+--─────────────────────────
+  User-User CF                        | Iron Man (4.71)
+  Item-Item CF                        | The Matrix (4.75)
+  Matrix Factorisation (SVD)          | The Matrix (4.28)
+  Content-Based                       | The Matrix (1.289)
+
+  [saved] → plots/rating_matrix.png
+  [saved] → plots/user_embeddings.png
+
+  ── Key Takeaways ──
+    • User-User CF: good for small user bases, captures taste directly
+    • Item-Item CF: scales better (items < users), more stable over time
+    • Matrix Factorisation: best accuracy, discovers latent factors, Netflix Prize winner
+    • Content-Based: no cold-start for items (uses features), but limited discovery
+    • Hybrid: production systems combine multiple signals (Netflix, Spotify, YouTube)
+
+  ── Cold Start Problem ──
+    • New user: no ratings → CF fails. Use content-based or popularity fallback.
+    • New item: no ratings → CF fails. Use content features or explore/exploit.
+
+======================================================================

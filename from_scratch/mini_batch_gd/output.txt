@@ -1,0 +1,21 @@
+============================================================
+  MINI-BATCH GRADIENT DESCENT — FROM SCRATCH
+============================================================
+  Train size : 1600
+  Epochs     : 50
+
+  Full-batch (bs=1600)           | updates/epoch=    1 | final_loss=0.3587 | acc=0.8850
+  Mini-batch (bs=64)             | updates/epoch=   25 | final_loss=0.2832 | acc=0.8725
+  Mini-batch (bs=16)             | updates/epoch=  100 | final_loss=0.2832 | acc=0.8750
+  SGD (bs=1)                     | updates/epoch= 1600 | final_loss=0.2838 | acc=0.8800
+
+  Key observations:
+    - Full-batch: smoothest curve but fewest weight updates per epoch
+    - Mini-batch (64): good balance — smooth enough, many updates
+    - SGD (bs=1): noisiest curve but most updates — explores the loss surface
+    - All converge to similar final loss; the PATH differs
+
+  Formulas (same as logistic regression, applied to each batch):
+    dw = 1/m * X_batch^T · (σ(z) - y_batch)
+    w  = w - lr * dw
+============================================================

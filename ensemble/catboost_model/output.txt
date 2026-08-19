@@ -1,0 +1,24 @@
+==================================================
+  CATBOOST  —  Results
+==================================================
+  Iterations    : 300
+  learning_rate : 0.05
+  depth         : 6
+  boosting      : Ordered
+  Accuracy      : 0.9040
+  Precision     : 0.9040
+  Recall        : 0.9040
+  F1 Score      : 0.9040
+  ROC AUC       : 0.9592
+  Train time    : 0.6889s
+==================================================
+
+Classification Report:
+              precision    recall  f1-score   support
+
+           0       0.90      0.91      0.90       498
+           1       0.91      0.90      0.90       502
+
+    accuracy                           0.90      1000
+   macro avg       0.90      0.90      0.90      1000
+weighted avg       0.90      0.90      0.90      1000

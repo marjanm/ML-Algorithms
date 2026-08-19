@@ -1,0 +1,13 @@
+============================================================
+  PCA  —  Results
+============================================================
+  Original dims  : 64
+  Reduced dims   : 2
+  Explained var  : [0.12033916 0.09561054]
+  Total captured : 0.2159
+  Time           : 0.0008s
+
+  Components needed for 90% variance : 31
+  Components needed for 95% variance : 40
+  Components needed for 99% variance : 54
+============================================================

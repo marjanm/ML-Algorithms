@@ -1,0 +1,17 @@
+==================================================
+  CNN  —  Results (MNIST)
+==================================================
+  Architecture : Conv(32) -> Conv(64) -> FC(128) -> 10
+  Kernel size  : 3x3
+  Dropout      : 0.25
+  Epochs       : 5
+  Batch size   : 128
+  Learning rate: 0.001
+  Device       : mps
+  Final acc    : 0.9897
+==================================================
+  Epoch 1: loss=0.1775  acc=0.9814
+  Epoch 2: loss=0.0701  acc=0.9871
+  Epoch 3: loss=0.0554  acc=0.9888
+  Epoch 4: loss=0.0442  acc=0.9868
+  Epoch 5: loss=0.0401  acc=0.9897

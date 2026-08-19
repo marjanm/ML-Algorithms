@@ -1,0 +1,10 @@
+artifact_location: file:///Users/mmomtazpour/Documents/personal2026/ML_models/experiment_tracking/mlruns/984552772836687900/models/m-a3e364c2cf1240fb812893bf38f9ad9a/artifacts
+creation_timestamp: 1772133465846
+experiment_id: '984552772836687900'
+last_updated_timestamp: 1772133466078
+model_id: m-a3e364c2cf1240fb812893bf38f9ad9a
+model_type: null
+name: model
+source_run_id: f63e5a8dad2c474b839ef91f910ea4b5
+status: 2
+status_message: null

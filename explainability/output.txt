@@ -1,0 +1,82 @@
+=================================================================
+  MODEL EXPLAINABILITY  —  SHAP & LIME Demo
+=================================================================
+
+  Model: Gradient Boosting (100 trees, depth=4)
+  Test accuracy: 0.8983
+  Features: ['income', 'age', 'credit_score', 'debt_ratio', 'employment_years', 'num_accounts', 'recent_inquiries', 'noise_1', 'noise_2', 'noise_3']
+
+  ── 1. Built-in Feature Importance (impurity-based) ──
+    debt_ratio          : 0.3436  █████████████████
+    income              : 0.3018  ███████████████
+    num_accounts        : 0.1078  █████
+    noise_2             : 0.1055  █████
+    employment_years    : 0.0724  ███
+    age                 : 0.0335  █
+    noise_3             : 0.0161  
+    credit_score        : 0.0106  
+    noise_1             : 0.0047  
+    recent_inquiries    : 0.0039  
+
+  ── 2. Permutation Importance (model-agnostic) ──
+    debt_ratio          : 0.1798  █████████████████
+    income              : 0.1442  ██████████████
+    num_accounts        : 0.1073  ██████████
+    noise_2             : 0.0624  ██████
+    employment_years    : 0.0476  ████
+    age                 : 0.0110  █
+    noise_3             : 0.0043  
+    credit_score        : -0.0012  
+    noise_1             : -0.0014  
+    recent_inquiries    : -0.0020  
+
+  ── 3. SHAP — Global Feature Importance ──
+    debt_ratio          : 1.5057  ██████████████████████████████
+    income              : 1.1666  ███████████████████████
+    num_accounts        : 0.9092  ██████████████████
+    employment_years    : 0.5444  ██████████
+    noise_2             : 0.5377  ██████████
+    age                 : 0.2437  ████
+    noise_3             : 0.1884  ███
+    credit_score        : 0.0934  █
+    noise_1             : 0.0422  
+    recent_inquiries    : 0.0309  
+    [saved] → plots/shap_summary.png
+    [saved] → plots/shap_bar.png
+
+  ── 4. SHAP — Local Explanation (single prediction) ──
+    Sample #0: predicted class=1, probability=0.9934
+    Base value (avg prediction): -0.1530
+    Top contributing features:
+      debt_ratio          : +2.7312 ↑ (value=0.66)
+      num_accounts        : +2.5230 ↑ (value=-2.57)
+      income              : -0.6004 ↓ (value=2.88)
+      employment_years    : +0.2463 ↑ (value=1.73)
+      age                 : +0.1933 ↑ (value=-1.51)
+    [saved] → plots/shap_waterfall.png
+
+  ── 5. LIME — Local Surrogate Explanation ──
+    Sample #0 explanation:
+      debt_ratio > 0.64                       : +0.3802 ↑
+      income > 1.66                           : -0.2411 ↓
+      num_accounts <= -0.35                   : +0.1439 ↑
+      noise_2 > 1.16                          : -0.0890 ↓
+      employment_years > 1.53                 : +0.0831 ↑
+      age <= -0.87                            : -0.0420 ↓
+      credit_score > 0.60                     : +0.0195 ↑
+      noise_3 <= -1.45                        : -0.0118 ↓
+      noise_1 <= -0.72                        : -0.0099 ↓
+      -0.61 < recent_inquiries <= 0.04        : -0.0091 ↓
+    [saved] → plots/lime_explanation.png
+
+  ── 6. Importance Method Comparison ──
+    [saved] → plots/importance_comparison.png
+
+  ── Key Takeaways ──
+    • Built-in importance (impurity) can be biased toward high-cardinality features
+    • Permutation importance is model-agnostic and measures real predictive contribution
+    • SHAP gives both global AND local explanations with theoretical guarantees
+    • LIME fits a local linear model around each prediction — intuitive but less consistent
+    • Noise features should rank low across all methods (sanity check)
+
+=================================================================

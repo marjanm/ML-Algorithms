@@ -1,0 +1,21 @@
+=================================================================
+  HYPERPARAMETER TUNING  —  Demo
+=================================================================
+
+  GridSearch (108 combos, exhaustive):
+    Best accuracy : 0.9037
+    Best params   : {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 10, 'n_estimators': 200}
+    Time          : 4.30s
+
+  RandomSearch (108 random combos):
+    Best accuracy : 0.9050
+    Best params   : {'max_depth': 10, 'min_samples_leaf': 1, 'min_samples_split': 9, 'n_estimators': 171}
+    Time          : 3.69s
+
+  Takeaway:
+    - GridSearch: guaranteed to find the best combo in the grid, but exponential cost
+    - RandomSearch: same budget, often finds equally good or better results
+    - For 5+ hyperparameters, RandomSearch is strongly preferred
+    - Bayesian optimisation (Optuna, scikit-optimize) is even smarter —
+      it uses past results to decide where to search next
+=================================================================

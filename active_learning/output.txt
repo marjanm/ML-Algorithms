@@ -1,0 +1,55 @@
+ACTIVE LEARNING DEMO
+============================================================
+
+Dataset: 1797 digit images (10 classes)
+Train: 1257, Test: 540
+Starting with 20 labeled, querying 20 per round, 25 rounds
+
+Random sampling:
+  After  20 labels: 0.750
+  After 120 labels: 0.880
+  After 520 labels: 0.954
+
+Uncertainty sampling:
+  After  20 labels: 0.750
+  After 120 labels: 0.906
+  After 520 labels: 0.970
+
+Margin sampling:
+  After  20 labels: 0.750
+  After 120 labels: 0.933
+  After 520 labels: 0.969
+
+Entropy sampling:
+  After  20 labels: 0.750
+  After 120 labels: 0.869
+  After 520 labels: 0.970
+
+Upper bound (all 1257 labels): 0.970
+
+Labels needed to reach 90% accuracy:
+  Random            160 labels
+  Uncertainty       120 labels
+  Margin            100 labels
+  Entropy           160 labels
+
+→ Plot saved: plots/active_learning.png
+
+============================================================
+KEY TAKEAWAYS
+============================================================
+
+Active learning reduces labeling cost by querying the MOST INFORMATIVE samples.
+
+Query strategies (from simplest to most advanced):
+  1. Uncertainty  — "I'm least sure about this one"
+  2. Margin       — "My top two guesses are almost tied"
+  3. Entropy      — "I'm confused across many classes"
+  4. QBC          — committee of models disagrees (not shown)
+  5. Expected gradient — which sample would change the model most
+
+When to use active learning:
+  • Labeling is expensive (medical images, legal docs)
+  • You have lots of unlabeled data but limited annotation budget
+  • The decision boundary is complex — random labeling wastes effort
+    on "easy" samples far from the boundary

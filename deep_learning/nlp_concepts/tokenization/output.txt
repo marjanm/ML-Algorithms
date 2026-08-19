@@ -1,0 +1,68 @@
+================================================================================
+  TOKENIZATION  —  Demo
+================================================================================
+
+  Comparing how different tokenisers break the same text.
+
+  Input: "The quick brown fox jumps over the lazy dog."
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   9 tokens | ['The', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog.']
+  GPT-2 (BPE)          |  10 tokens | ['The', 'Ġquick', 'Ġbrown', 'Ġfox', 'Ġjumps', 'Ġover', 'Ġthe', 'Ġlazy', 'Ġdog', '.']
+  BERT (WordPiece)     |  10 tokens | ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog', '.']
+  DistilBERT (WordPiece) |  10 tokens | ['the', 'quick', 'brown', 'fox', 'jumps', 'over', 'the', 'lazy', 'dog', '.']
+
+  Input: "Tokenization is surprisingly important!"
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   4 tokens | ['Tokenization', 'is', 'surprisingly', 'important!']
+  GPT-2 (BPE)          |   6 tokens | ['Token', 'ization', 'Ġis', 'Ġsurprisingly', 'Ġimportant', '!']
+  BERT (WordPiece)     |   6 tokens | ['token', '##ization', 'is', 'surprisingly', 'important', '!']
+  DistilBERT (WordPiece) |   6 tokens | ['token', '##ization', 'is', 'surprisingly', 'important', '!']
+
+  Input: "unhappiness is not the same as sadness"
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   7 tokens | ['unhappiness', 'is', 'not', 'the', 'same', 'as', 'sadness']
+  GPT-2 (BPE)          |   9 tokens | ['un', 'h', 'appiness', 'Ġis', 'Ġnot', 'Ġthe', 'Ġsame', 'Ġas', 'Ġsadness']
+  BERT (WordPiece)     |  10 tokens | ['un', '##ha', '##pp', '##iness', 'is', 'not', 'the', 'same', 'as', 'sadness']
+  DistilBERT (WordPiece) |  10 tokens | ['un', '##ha', '##pp', '##iness', 'is', 'not', 'the', 'same', 'as', 'sadness']
+
+  Input: "GPT-4 uses byte-pair encoding (BPE) for tokenization."
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   7 tokens | ['GPT-4', 'uses', 'byte-pair', 'encoding', '(BPE)', 'for', 'tokenization.']
+  GPT-2 (BPE)          |  17 tokens | ['G', 'PT', '-', '4', 'Ġuses', 'Ġbyte', '-', 'pair', 'Ġencoding', 'Ġ(', 'B', 'PE', ')', 'Ġfor', 'Ġtoken', 'ization', '.']
+  BERT (WordPiece)     |  17 tokens | ['gp', '##t', '-', '4', 'uses', 'byte', '-', 'pair', 'encoding', '(', 'bp', '##e', ')', 'for', 'token', '##ization', '.']
+  DistilBERT (WordPiece) |  17 tokens | ['gp', '##t', '-', '4', 'uses', 'byte', '-', 'pair', 'encoding', '(', 'bp', '##e', ')', 'for', 'token', '##ization', '.']
+
+  Input: "Pneumonoultramicroscopicsilicovolcanoconiosis is a real word."
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   5 tokens | ['Pneumonoultramicroscopicsilicovolcanoconiosis', 'is', 'a', 'real', 'word.']
+  GPT-2 (BPE)          |  20 tokens | ['P', 'neum', 'on', 'oult', 'ram', 'icro', 'sc', 'op', 'ics', 'ilic', 'ov', 'ol', 'can', 'ocon', 'iosis', 'Ġis', 'Ġa', 'Ġreal', 'Ġword', '.']
+  BERT (WordPiece)     |  22 tokens | ['p', '##ne', '##um', '##ono', '##ult', '##ram', '##ic', '##ros', '##copic', '##sil', '##ico', '##vo', '##lc', '##ano', '##con', '##ios', '##is', 'is', 'a', 'real', 'word', '.']
+  DistilBERT (WordPiece) |  22 tokens | ['p', '##ne', '##um', '##ono', '##ult', '##ram', '##ic', '##ros', '##copic', '##sil', '##ico', '##vo', '##lc', '##ano', '##con', '##ios', '##is', 'is', 'a', 'real', 'word', '.']
+
+  Input: "I love New York 🗽"
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |   5 tokens | ['I', 'love', 'New', 'York', '🗽']
+  GPT-2 (BPE)          |   7 tokens | ['I', 'Ġlove', 'ĠNew', 'ĠYork', 'ĠðŁ', 'Ĺ', '½']
+  BERT (WordPiece)     |   5 tokens | ['i', 'love', 'new', 'york', '[UNK]']
+  DistilBERT (WordPiece) |   5 tokens | ['i', 'love', 'new', 'york', '[UNK]']
+
+  Input: "Machine learning models don't see text — they see numbers."
+  ——————————————————————————————————————————————————————————————————————
+  Whitespace           |  10 tokens | ['Machine', 'learning', 'models', "don't", 'see', 'text', '—', 'they', 'see', 'numbers.']
+  GPT-2 (BPE)          |  12 tokens | ['Machine', 'Ġlearning', 'Ġmodels', 'Ġdon', "'t", 'Ġsee', 'Ġtext', 'ĠâĢĶ', 'Ġthey', 'Ġsee', 'Ġnumbers', '.']
+  BERT (WordPiece)     |  13 tokens | ['machine', 'learning', 'models', 'don', "'", 't', 'see', 'text', '—', 'they', 'see', 'numbers', '.']
+  DistilBERT (WordPiece) |  13 tokens | ['machine', 'learning', 'models', 'don', "'", 't', 'see', 'text', '—', 'they', 'see', 'numbers', '.']
+
+  Vocabulary sizes:
+    GPT-2 (BPE)          : 50,257 tokens
+    BERT (WordPiece)     : 30,522 tokens
+    DistilBERT (WordPiece) : 30,522 tokens
+
+  Key concepts:
+    - Whitespace tokenisation: simple but can't handle unknown words
+    - WordPiece (BERT): splits unknowns into sub-words with ## prefix
+    - BPE (GPT-2): merges frequent byte-pairs into single tokens
+    - Sub-word tokenisers have a fixed vocabulary but can represent ANY text
+    - Longer words = more tokens = slower + more expensive to process
+    - Token count affects cost: GPT-4 charges per token, not per word
+================================================================================
