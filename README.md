@@ -320,4 +320,4 @@ See the **[ML Reference doc][mlref]** for detailed write-ups on all topics, plus
 - ❌ ICA / NMF → `unsupervised/matrix_factorization/`
   *Beyond PCA. ICA = find independent signals (blind source separation). NMF = non-negative parts-based decomposition.*
 
-[mlref]: <../Engineering-Handbook/A review of Machine Learning models.md>
+[mlref]: https://github.com/marjanm/Engineering-Handbook/blob/main/A%20review%20of%20Machine%20Learning%20models.md
